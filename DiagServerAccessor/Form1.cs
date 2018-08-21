@@ -19,6 +19,15 @@ namespace DiagServerAccessor
         {
             InitializeComponent();
             _ipAddrItems = ipAddrSelector.Items;
+            
+            foreach(CTRProductStuff.Action action in CTRProductStuff.AllActions)
+            {
+                actionSelector.Items.Add(action);
+            }
+            foreach (CTRProductStuff.Devices device in CTRProductStuff.AllDevices)
+            {
+                deviceSelector.Items.Add(device);
+            }
         }
 
         private void refreshButton_Click(object sender, EventArgs e)
@@ -39,11 +48,21 @@ namespace DiagServerAccessor
 
             //If connecting and box is not empty, use that address
             _connectedIp = "http://" + ipAddrSelector.Text + ":8181/";
-            string response = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, CTRProductStuff.Action.None);
-            Console.WriteLine(response);
 
-
+            //Send request to root server as a form of "ping"
+            string response = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.None);
+            
+            //Check the connected box if we successfully got the return message
             connectedIndicator.Checked = response == WebServerScripts.PingReturn;
+        }
+
+        private void executeAction_Click(object sender, EventArgs e)
+        {
+            CTRProductStuff.Action actionSent = (CTRProductStuff.Action)Enum.Parse(typeof(CTRProductStuff.Action), actionSelector.Text);
+            CTRProductStuff.Devices deviceSent = (CTRProductStuff.Devices)Enum.Parse(typeof(CTRProductStuff.Devices), deviceSelector.Text);
+
+            string retval = WebServerScripts.HttpGet(_connectedIp, deviceSent, (uint)deviceIDSelector.Value, actionSent);
+            Console.WriteLine(retval);
         }
     }
 }

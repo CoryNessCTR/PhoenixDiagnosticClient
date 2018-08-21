@@ -18,6 +18,13 @@ namespace DiagServerAccessor
             PCM = 40,
             PDP = 50,
         };
+        public static readonly Dictionary<Devices, uint> DeviceMap = new Dictionary<Devices, uint>()
+        {
+            { Devices.None, 0 },
+            { Devices.TalonSRX, 0x0204fc00 },
+
+        };
+        public static readonly List<Devices> AllDevices = Enum.GetValues(typeof(Devices)).Cast<Devices>().ToList();
 
         public enum Action
         {
@@ -31,19 +38,20 @@ namespace DiagServerAccessor
             CheckUpdateProgress,
             GetConfig,
             SetConfig
-        }
-        public static Dictionary<Action, string> ActionMap = new Dictionary<Action, string>()
+        };
+        public static readonly Dictionary<Action, string> ActionMap = new Dictionary<Action, string>()
         {
             { Action.None, "" },
-            { Action.GetDeviceList, "?action=getdevices"},
-            { Action.Blink, "?action=blink" },
-            { Action.SetID, "?action=setid" },
-            { Action.SetDeviceName, "?action=setid" },
-            { Action.SelfTest, "?action=selftest" },
-            { Action.UpdateFirmware, "?action=fieldupgrade" },
-            { Action.CheckUpdateProgress, "?action=progress" },
-            { Action.GetConfig, "?action=getconfig" },
-            { Action.SetConfig, "?action=setconfig" },
+            { Action.GetDeviceList, "action=getdevices"},
+            { Action.Blink, "action=blink" },
+            { Action.SetID, "action=setid" },
+            { Action.SetDeviceName, "action=setid" },
+            { Action.SelfTest, "action=selftest" },
+            { Action.UpdateFirmware, "action=fieldupgrade" },
+            { Action.CheckUpdateProgress, "action=progress" },
+            { Action.GetConfig, "action=getconfig" },
+            { Action.SetConfig, "action=setconfig" },
         };
+        public static readonly List<Action> AllActions = Enum.GetValues(typeof(Action)).Cast<Action>().ToList();
     }
 }

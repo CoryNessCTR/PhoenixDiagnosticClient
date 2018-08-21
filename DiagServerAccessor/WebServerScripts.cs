@@ -16,10 +16,22 @@ namespace DiagServerAccessor
         {
             return new string[] { "localhost" };
         }
-        public static string HttpGet(string ip, CTRProductStuff.Devices device, CTRProductStuff.Action action, string extraOptions = "")
+        public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {
             string address = ip;
-            switch(action)
+            bool startedAddress = false;
+            switch (device)
+            {
+                case CTRProductStuff.Devices.None:
+                    break; //No device selected, fall through
+                default:
+                    startedAddress = true;
+                    address += "?deviceid=" + (CTRProductStuff.DeviceMap[device] | deviceID).ToString("X");
+                    break;
+            }
+            if (startedAddress) address += "&";
+            else address += "?";
+            switch (action)
             {
                 case CTRProductStuff.Action.None:
                     break; //Just calling the adderss for a ping
@@ -28,12 +40,13 @@ namespace DiagServerAccessor
                 case CTRProductStuff.Action.SetID:
                 case CTRProductStuff.Action.SetDeviceName:
                 case CTRProductStuff.Action.UpdateFirmware:
-                    ip += CTRProductStuff.ActionMap[action] + extraOptions;
+                    address += CTRProductStuff.ActionMap[action] + extraOptions;
                     break;
                 default:
-                    ip += CTRProductStuff.ActionMap[action];
+                    address += CTRProductStuff.ActionMap[action];
                     break;
             }
+            Console.WriteLine(address);
             string retval = "";
             //Request a GET at specified address
             WebRequest request = WebRequest.Create(address);
