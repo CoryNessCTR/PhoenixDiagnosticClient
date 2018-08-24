@@ -35,13 +35,10 @@
             this.connectButton = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.refreshButton = new System.Windows.Forms.Button();
-            this.executeAction = new System.Windows.Forms.Button();
-            this.deviceIDSelector = new System.Windows.Forms.NumericUpDown();
-            this.label5 = new System.Windows.Forms.Label();
-            this.deviceSelector = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.actionSelector = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.deviceSpecificControls = new System.Windows.Forms.TableLayoutPanel();
+            this.splitContainer5 = new System.Windows.Forms.SplitContainer();
+            this.blinkButton = new System.Windows.Forms.Button();
+            this.selftTestButton = new System.Windows.Forms.Button();
             this.ipAddrSelector = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -49,10 +46,16 @@
             this.deviceName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.hardwareName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.deviceID = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.firmwareVers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.manDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bootRev = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.firmwareVers = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.softStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.splitContainer6 = new System.Windows.Forms.SplitContainer();
+            this.nameChanger = new System.Windows.Forms.TextBox();
+            this.nameChangeButton = new System.Windows.Forms.Button();
+            this.splitContainer7 = new System.Windows.Forms.SplitContainer();
+            this.idChanger = new System.Windows.Forms.NumericUpDown();
+            this.idChangeButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -65,10 +68,23 @@
             this.splitContainer4.Panel1.SuspendLayout();
             this.splitContainer4.Panel2.SuspendLayout();
             this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.deviceIDSelector)).BeginInit();
+            this.deviceSpecificControls.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
+            this.splitContainer5.Panel1.SuspendLayout();
+            this.splitContainer5.Panel2.SuspendLayout();
+            this.splitContainer5.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).BeginInit();
+            this.splitContainer6.Panel1.SuspendLayout();
+            this.splitContainer6.Panel2.SuspendLayout();
+            this.splitContainer6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).BeginInit();
+            this.splitContainer7.Panel1.SuspendLayout();
+            this.splitContainer7.Panel2.SuspendLayout();
+            this.splitContainer7.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.idChanger)).BeginInit();
             this.SuspendLayout();
             // 
             // splitContainer2
@@ -105,13 +121,7 @@
             // 
             // splitContainer3.Panel2
             // 
-            this.splitContainer3.Panel2.Controls.Add(this.executeAction);
-            this.splitContainer3.Panel2.Controls.Add(this.deviceIDSelector);
-            this.splitContainer3.Panel2.Controls.Add(this.label5);
-            this.splitContainer3.Panel2.Controls.Add(this.deviceSelector);
-            this.splitContainer3.Panel2.Controls.Add(this.label4);
-            this.splitContainer3.Panel2.Controls.Add(this.actionSelector);
-            this.splitContainer3.Panel2.Controls.Add(this.label3);
+            this.splitContainer3.Panel2.Controls.Add(this.deviceSpecificControls);
             this.splitContainer3.Size = new System.Drawing.Size(125, 366);
             this.splitContainer3.SplitterDistance = 55;
             this.splitContainer3.TabIndex = 3;
@@ -180,77 +190,64 @@
             this.refreshButton.UseVisualStyleBackColor = true;
             this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
-            // executeAction
+            // deviceSpecificControls
             // 
-            this.executeAction.Dock = System.Windows.Forms.DockStyle.Top;
-            this.executeAction.Location = new System.Drawing.Point(0, 101);
-            this.executeAction.Name = "executeAction";
-            this.executeAction.Size = new System.Drawing.Size(125, 23);
-            this.executeAction.TabIndex = 11;
-            this.executeAction.Text = "Send Action";
-            this.executeAction.UseVisualStyleBackColor = true;
-            this.executeAction.Click += new System.EventHandler(this.executeAction_Click);
+            this.deviceSpecificControls.ColumnCount = 1;
+            this.deviceSpecificControls.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.deviceSpecificControls.Controls.Add(this.splitContainer5, 0, 0);
+            this.deviceSpecificControls.Controls.Add(this.splitContainer6, 0, 2);
+            this.deviceSpecificControls.Controls.Add(this.splitContainer7, 0, 4);
+            this.deviceSpecificControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.deviceSpecificControls.Location = new System.Drawing.Point(0, 0);
+            this.deviceSpecificControls.Name = "deviceSpecificControls";
+            this.deviceSpecificControls.RowCount = 7;
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.17885F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.761533F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.17885F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.761533F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.17885F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 3.761533F));
+            this.deviceSpecificControls.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 22.17885F));
+            this.deviceSpecificControls.Size = new System.Drawing.Size(125, 307);
+            this.deviceSpecificControls.TabIndex = 0;
             // 
-            // deviceIDSelector
+            // splitContainer5
             // 
-            this.deviceIDSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.deviceIDSelector.Location = new System.Drawing.Point(0, 81);
-            this.deviceIDSelector.Maximum = new decimal(new int[] {
-            63,
-            0,
-            0,
-            0});
-            this.deviceIDSelector.Name = "deviceIDSelector";
-            this.deviceIDSelector.Size = new System.Drawing.Size(125, 20);
-            this.deviceIDSelector.TabIndex = 10;
+            this.splitContainer5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer5.Location = new System.Drawing.Point(3, 3);
+            this.splitContainer5.Name = "splitContainer5";
             // 
-            // label5
+            // splitContainer5.Panel1
             // 
-            this.label5.AutoSize = true;
-            this.label5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label5.Location = new System.Drawing.Point(0, 68);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(55, 13);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Device ID";
+            this.splitContainer5.Panel1.Controls.Add(this.blinkButton);
             // 
-            // deviceSelector
+            // splitContainer5.Panel2
             // 
-            this.deviceSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.deviceSelector.FormattingEnabled = true;
-            this.deviceSelector.Location = new System.Drawing.Point(0, 47);
-            this.deviceSelector.Name = "deviceSelector";
-            this.deviceSelector.Size = new System.Drawing.Size(125, 21);
-            this.deviceSelector.TabIndex = 8;
+            this.splitContainer5.Panel2.Controls.Add(this.selftTestButton);
+            this.splitContainer5.Size = new System.Drawing.Size(119, 62);
+            this.splitContainer5.SplitterDistance = 52;
+            this.splitContainer5.TabIndex = 0;
             // 
-            // label4
+            // blinkButton
             // 
-            this.label4.AutoSize = true;
-            this.label4.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label4.Location = new System.Drawing.Point(0, 34);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(41, 13);
-            this.label4.TabIndex = 7;
-            this.label4.Text = "Device";
+            this.blinkButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.blinkButton.Location = new System.Drawing.Point(0, 0);
+            this.blinkButton.Name = "blinkButton";
+            this.blinkButton.Size = new System.Drawing.Size(52, 62);
+            this.blinkButton.TabIndex = 0;
+            this.blinkButton.Text = "Blink";
+            this.blinkButton.UseVisualStyleBackColor = true;
+            this.blinkButton.Click += new System.EventHandler(this.blinkButton_Click);
             // 
-            // actionSelector
+            // selftTestButton
             // 
-            this.actionSelector.Dock = System.Windows.Forms.DockStyle.Top;
-            this.actionSelector.FormattingEnabled = true;
-            this.actionSelector.Location = new System.Drawing.Point(0, 13);
-            this.actionSelector.Name = "actionSelector";
-            this.actionSelector.Size = new System.Drawing.Size(125, 21);
-            this.actionSelector.TabIndex = 5;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.label3.Location = new System.Drawing.Point(0, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(37, 13);
-            this.label3.TabIndex = 6;
-            this.label3.Text = "Action";
+            this.selftTestButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.selftTestButton.Location = new System.Drawing.Point(0, 0);
+            this.selftTestButton.Name = "selftTestButton";
+            this.selftTestButton.Size = new System.Drawing.Size(63, 62);
+            this.selftTestButton.TabIndex = 0;
+            this.selftTestButton.Text = "Self Test";
+            this.selftTestButton.UseVisualStyleBackColor = true;
             // 
             // ipAddrSelector
             // 
@@ -260,6 +257,7 @@
             this.ipAddrSelector.Name = "ipAddrSelector";
             this.ipAddrSelector.Size = new System.Drawing.Size(125, 21);
             this.ipAddrSelector.TabIndex = 0;
+            this.ipAddrSelector.TextUpdate += new System.EventHandler(this.ipAddrSelector_TextChanged);
             // 
             // label1
             // 
@@ -276,12 +274,13 @@
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.splitContainer1.Location = new System.Drawing.Point(0, 0);
             this.splitContainer1.Name = "splitContainer1";
+            this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.deviceView);
             this.splitContainer1.Size = new System.Drawing.Size(671, 400);
-            this.splitContainer1.SplitterDistance = 310;
+            this.splitContainer1.SplitterDistance = 138;
             this.splitContainer1.TabIndex = 0;
             // 
             // deviceView
@@ -299,10 +298,11 @@
             this.deviceView.GridLines = true;
             this.deviceView.Location = new System.Drawing.Point(0, 0);
             this.deviceView.Name = "deviceView";
-            this.deviceView.Size = new System.Drawing.Size(310, 400);
+            this.deviceView.Size = new System.Drawing.Size(671, 138);
             this.deviceView.TabIndex = 0;
             this.deviceView.UseCompatibleStateImageBehavior = false;
             this.deviceView.View = System.Windows.Forms.View.Details;
+            this.deviceView.SelectedIndexChanged += new System.EventHandler(this.deviceView_SelectedIndexChanged);
             // 
             // deviceName
             // 
@@ -312,32 +312,111 @@
             // hardwareName
             // 
             this.hardwareName.Text = "Hardware";
-            this.hardwareName.Width = 80;
+            this.hardwareName.Width = 150;
             // 
             // deviceID
             // 
             this.deviceID.Text = "ID";
             this.deviceID.Width = 40;
             // 
+            // firmwareVers
+            // 
+            this.firmwareVers.Text = "Firmware Version";
+            this.firmwareVers.Width = 100;
+            // 
             // manDate
             // 
-            this.manDate.DisplayIndex = 3;
             this.manDate.Text = "Manufacturer Date";
-            this.manDate.Width = 65;
+            this.manDate.Width = 134;
             // 
             // bootRev
             // 
-            this.bootRev.DisplayIndex = 4;
             this.bootRev.Text = "Bootloader Revision";
-            // 
-            // firmwareVers
-            // 
-            this.firmwareVers.DisplayIndex = 5;
-            this.firmwareVers.Text = "Firmware Version";
+            this.bootRev.Width = 117;
             // 
             // softStatus
             // 
             this.softStatus.Text = "Software Status";
+            this.softStatus.Width = 111;
+            // 
+            // splitContainer6
+            // 
+            this.splitContainer6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer6.Location = new System.Drawing.Point(3, 82);
+            this.splitContainer6.Name = "splitContainer6";
+            this.splitContainer6.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer6.Panel1
+            // 
+            this.splitContainer6.Panel1.Controls.Add(this.nameChanger);
+            // 
+            // splitContainer6.Panel2
+            // 
+            this.splitContainer6.Panel2.Controls.Add(this.nameChangeButton);
+            this.splitContainer6.Size = new System.Drawing.Size(119, 62);
+            this.splitContainer6.SplitterDistance = 25;
+            this.splitContainer6.TabIndex = 1;
+            // 
+            // nameChanger
+            // 
+            this.nameChanger.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nameChanger.Location = new System.Drawing.Point(0, 0);
+            this.nameChanger.Name = "nameChanger";
+            this.nameChanger.Size = new System.Drawing.Size(119, 20);
+            this.nameChanger.TabIndex = 0;
+            // 
+            // nameChangeButton
+            // 
+            this.nameChangeButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.nameChangeButton.Location = new System.Drawing.Point(0, 0);
+            this.nameChangeButton.Name = "nameChangeButton";
+            this.nameChangeButton.Size = new System.Drawing.Size(119, 33);
+            this.nameChangeButton.TabIndex = 0;
+            this.nameChangeButton.Text = "Change Name";
+            this.nameChangeButton.UseVisualStyleBackColor = true;
+            this.nameChangeButton.Click += new System.EventHandler(this.nameChangeButton_Click);
+            // 
+            // splitContainer7
+            // 
+            this.splitContainer7.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer7.Location = new System.Drawing.Point(3, 161);
+            this.splitContainer7.Name = "splitContainer7";
+            this.splitContainer7.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer7.Panel1
+            // 
+            this.splitContainer7.Panel1.Controls.Add(this.idChanger);
+            // 
+            // splitContainer7.Panel2
+            // 
+            this.splitContainer7.Panel2.Controls.Add(this.idChangeButton);
+            this.splitContainer7.Size = new System.Drawing.Size(119, 62);
+            this.splitContainer7.SplitterDistance = 25;
+            this.splitContainer7.TabIndex = 2;
+            // 
+            // idChanger
+            // 
+            this.idChanger.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.idChanger.Location = new System.Drawing.Point(0, 0);
+            this.idChanger.Maximum = new decimal(new int[] {
+            63,
+            0,
+            0,
+            0});
+            this.idChanger.Name = "idChanger";
+            this.idChanger.Size = new System.Drawing.Size(119, 20);
+            this.idChanger.TabIndex = 0;
+            // 
+            // idChangeButton
+            // 
+            this.idChangeButton.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.idChangeButton.Location = new System.Drawing.Point(0, 0);
+            this.idChangeButton.Name = "idChangeButton";
+            this.idChangeButton.Size = new System.Drawing.Size(119, 33);
+            this.idChangeButton.TabIndex = 0;
+            this.idChangeButton.Text = "Change ID";
+            this.idChangeButton.UseVisualStyleBackColor = true;
+            this.idChangeButton.Click += new System.EventHandler(this.idChangeButton_Click);
             // 
             // Form1
             // 
@@ -351,7 +430,6 @@
             this.splitContainer2.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
-            this.splitContainer3.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
             this.splitContainer4.Panel1.ResumeLayout(false);
@@ -360,10 +438,24 @@
             this.splitContainer4.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.deviceIDSelector)).EndInit();
+            this.deviceSpecificControls.ResumeLayout(false);
+            this.splitContainer5.Panel1.ResumeLayout(false);
+            this.splitContainer5.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).EndInit();
+            this.splitContainer5.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer6.Panel1.ResumeLayout(false);
+            this.splitContainer6.Panel1.PerformLayout();
+            this.splitContainer6.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer6)).EndInit();
+            this.splitContainer6.ResumeLayout(false);
+            this.splitContainer7.Panel1.ResumeLayout(false);
+            this.splitContainer7.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer7)).EndInit();
+            this.splitContainer7.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.idChanger)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -379,13 +471,6 @@
         private System.Windows.Forms.RadioButton connectedIndicator;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.SplitContainer splitContainer4;
-        private System.Windows.Forms.ComboBox actionSelector;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox deviceSelector;
-        private System.Windows.Forms.NumericUpDown deviceIDSelector;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Button executeAction;
         private System.Windows.Forms.SplitContainer splitContainer1;
         private System.Windows.Forms.ListView deviceView;
         private System.Windows.Forms.ColumnHeader deviceName;
@@ -395,6 +480,16 @@
         private System.Windows.Forms.ColumnHeader manDate;
         private System.Windows.Forms.ColumnHeader bootRev;
         private System.Windows.Forms.ColumnHeader softStatus;
+        private System.Windows.Forms.TableLayoutPanel deviceSpecificControls;
+        private System.Windows.Forms.SplitContainer splitContainer5;
+        private System.Windows.Forms.Button blinkButton;
+        private System.Windows.Forms.Button selftTestButton;
+        private System.Windows.Forms.SplitContainer splitContainer6;
+        private System.Windows.Forms.TextBox nameChanger;
+        private System.Windows.Forms.Button nameChangeButton;
+        private System.Windows.Forms.SplitContainer splitContainer7;
+        private System.Windows.Forms.NumericUpDown idChanger;
+        private System.Windows.Forms.Button idChangeButton;
     }
 }
 

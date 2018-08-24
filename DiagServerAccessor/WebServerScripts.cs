@@ -42,14 +42,12 @@ namespace DiagServerAccessor
         public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {
             string address = ip;
-            bool startedAddress = false;
             address += "?";
             switch (device)
             {
                 case CTRProductStuff.Devices.None:
                     break; //No device selected, fall through
                 default:
-                    startedAddress = true;
                     address += "device=" + CTRProductStuff.DeviceMap[device];
                     break;
             }

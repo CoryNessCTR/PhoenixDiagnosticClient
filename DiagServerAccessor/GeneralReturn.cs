@@ -33,6 +33,10 @@ namespace DiagServerAccessor
     {
         public StandardizedReturn GeneralReturn;
     }
+    class BlinkReturn
+    {
+        public StandardizedReturn GeneralReturn;
+    }
     class GetDevicesReturn
     {
         public StandardizedReturn GeneralReturn;

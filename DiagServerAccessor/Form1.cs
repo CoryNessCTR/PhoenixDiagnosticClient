@@ -15,6 +15,7 @@ namespace DiagServerAccessor
     {
         private ComboBox.ObjectCollection _ipAddrItems;
         private string _connectedIp = "";
+        private GetDevicesReturn _deviceStatus;
 
         public Form1()
         {
@@ -22,13 +23,9 @@ namespace DiagServerAccessor
             _ipAddrItems = ipAddrSelector.Items;
             refreshButton_Click(null, null);
 
-            foreach (CTRProductStuff.Action action in CTRProductStuff.AllActions)
+            foreach (Control c in deviceSpecificControls.Controls)
             {
-                actionSelector.Items.Add(action);
-            }
-            foreach (CTRProductStuff.Devices device in CTRProductStuff.AllDevices)
-            {
-                deviceSelector.Items.Add(device);
+                c.Enabled = false;
             }
         }
 
@@ -40,13 +37,13 @@ namespace DiagServerAccessor
             {
                 _ipAddrItems.Add(addr);
             }
-            GetDevicesReturn devices = null;
+            deviceView.Items.Clear();
             if (_connectedIp != "")
-                devices = JsonConvert.DeserializeObject<GetDevicesReturn>
+                _deviceStatus = JsonConvert.DeserializeObject<GetDevicesReturn>
                     (WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList));
-            if(devices != null)
+            if(_deviceStatus != null)
             {
-                foreach(DeviceDescriptor d in devices.DeviceArray)
+                foreach(DeviceDescriptor d in _deviceStatus.DeviceArray)
                 {
                     string[] array = new string[7];
                     array[0] = d.Name;
@@ -78,22 +75,66 @@ namespace DiagServerAccessor
             //Check the connected box if we successfully got the return message
             connectedIndicator.Checked = true;//myReponse.GeneralReturn.Error == WebServerScripts.PingReturn;
         }
-
-        private void executeAction_Click(object sender, EventArgs e)
-        {
-            CTRProductStuff.Action actionSent = (CTRProductStuff.Action)Enum.Parse(typeof(CTRProductStuff.Action), actionSelector.Text);
-            CTRProductStuff.Devices deviceSent = (CTRProductStuff.Devices)Enum.Parse(typeof(CTRProductStuff.Devices), deviceSelector.Text);
-
-            if (_connectedIp == "")
-                return;
-            string retval = WebServerScripts.HttpGet(_connectedIp, deviceSent, (uint)deviceIDSelector.Value, actionSent);
-            Console.WriteLine(retval);
-        }
         
         private void ipAddrSelector_TextChanged(object sender, EventArgs e)
         {
+            deviceView.Items.Clear();
             connectedIndicator.Checked = false;
             _connectedIp = "";
+            foreach (Control c in deviceSpecificControls.Controls)
+            {
+                c.Enabled = false;
+            }
+        }
+
+        private void blinkButton_Click(object sender, EventArgs e)
+        {
+            if(deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
+
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.Blink);
+            }
+        }
+
+        private void deviceView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach(Control c in deviceSpecificControls.Controls)
+            {
+                c.Enabled = true;
+            }
+        }
+
+        private void idChangeButton_Click(object sender, EventArgs e)
+        {
+            if (deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
+                string extraParameters = "&newid=" + ((int)idChanger.Value).ToString();
+
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SetID, extraParameters);
+
+                refreshButton_Click(null, null); //Update GUI
+            }
+        }
+
+        private void nameChangeButton_Click(object sender, EventArgs e)
+        {
+            if (deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
+                string extraParameters = "&newname=" + nameChanger.Text;
+
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SetDeviceName, extraParameters);
+
+                refreshButton_Click(null, null); //Update GUI
+            }
         }
     }
 }

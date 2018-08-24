@@ -29,6 +29,17 @@ namespace DiagServerAccessor
             { Devices.PDP, "pdp" },
 
         };
+        public static readonly Dictionary<string, Devices> DeviceStringMap = new Dictionary<string, Devices>()
+        {
+            { "", Devices.None},
+            { "Talon SRX", Devices.TalonSRX },
+            { "Victor SPX", Devices.VictorSPX },
+            { "Pigeon IMU", Devices.PigeonIMU },
+            { "CANifier", Devices.CANifier },
+            { "PCM", Devices.PCM },
+            { "PDP", Devices.PDP },
+
+        };
         public static readonly List<Devices> AllDevices = Enum.GetValues(typeof(Devices)).Cast<Devices>().ToList();
 
         public enum Action
@@ -50,7 +61,7 @@ namespace DiagServerAccessor
             { Action.GetDeviceList, "action=getdevices"},
             { Action.Blink, "action=blink" },
             { Action.SetID, "action=setid" },
-            { Action.SetDeviceName, "action=setid" },
+            { Action.SetDeviceName, "action=setname" },
             { Action.SelfTest, "action=selftest" },
             { Action.UpdateFirmware, "action=fieldupgrade" },
             { Action.CheckUpdateProgress, "action=progress" },
