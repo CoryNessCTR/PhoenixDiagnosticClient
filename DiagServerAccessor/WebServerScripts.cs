@@ -4,17 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Net;
+using System.Net.Http;
 using System.IO;
 
 namespace DiagServerAccessor
 {
     public static class WebServerScripts
     {
-        public const string PingReturn = "Unknown command:\n";
+        private readonly static HttpClient _client = new HttpClient();
+        public const int PingReturn = -800;
 
         public static string[] GetIPAddrs()
         {
             return new string[] { "localhost" };
+        }
+
+        public static async void HttpPost(string ip, Stream file)
+        {
+            HttpContent filestream = new StreamContent(file);
+            
+            var client = new HttpClient();
+            try
+            {
+                var response = await client.PostAsync(ip, filestream);
+            }
+            catch(Exception e)
+            {
+
+            }
         }
         public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {

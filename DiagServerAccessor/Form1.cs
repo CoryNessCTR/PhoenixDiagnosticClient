@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace DiagServerAccessor
 {
@@ -51,9 +52,11 @@ namespace DiagServerAccessor
 
             //Send request to root server as a form of "ping"
             string response = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.None);
+            if (response.Equals("Failed")) return;
+            EmptyReturn myReponse = JsonConvert.DeserializeObject<EmptyReturn>(response);
             
             //Check the connected box if we successfully got the return message
-            connectedIndicator.Checked = response == WebServerScripts.PingReturn;
+            connectedIndicator.Checked = myReponse.GeneralReturn.Error == WebServerScripts.PingReturn;
         }
 
         private void executeAction_Click(object sender, EventArgs e)
@@ -63,6 +66,18 @@ namespace DiagServerAccessor
 
             string retval = WebServerScripts.HttpGet(_connectedIp, deviceSent, (uint)deviceIDSelector.Value, actionSent);
             Console.WriteLine(retval);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Filter = "CRF Filse|*.crf";
+            dialog.Title = "Select a crf file";
+
+            if(dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                WebServerScripts.HttpPost(_connectedIp, dialog.OpenFile());
+            }
         }
     }
 }
