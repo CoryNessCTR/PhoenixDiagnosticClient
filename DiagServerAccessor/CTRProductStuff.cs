@@ -18,10 +18,15 @@ namespace DiagServerAccessor
             PCM = 40,
             PDP = 50,
         };
-        public static readonly Dictionary<Devices, uint> DeviceMap = new Dictionary<Devices, uint>()
+        public static readonly Dictionary<Devices, string> DeviceMap = new Dictionary<Devices, string>()
         {
-            { Devices.None, 0 },
-            { Devices.TalonSRX, 0x0204fc00 },
+            { Devices.None, "" },
+            { Devices.TalonSRX, "srx" },
+            { Devices.VictorSPX, "spx" },
+            { Devices.PigeonIMU, "pigeon" },
+            { Devices.CANifier, "canif" },
+            { Devices.PCM, "pcm" },
+            { Devices.PDP, "pdp" },
 
         };
         public static readonly List<Devices> AllDevices = Enum.GetValues(typeof(Devices)).Cast<Devices>().ToList();
