@@ -1,0 +1,29 @@
+{
+  "Configs": [
+    {
+      "Name": "Motor Output",
+      "Type": "MotorOutputGroup",
+      "Description": "Group of all configs relating to motor output"
+    },
+    {
+      "Name": "Hardware Limit Switches",
+      "Type": "HardLimitSwitchGroup",
+      "Description": "Group of all configs relating to hardware limit switches"
+    },
+    {
+      "Name": "Software Limit Switches",
+      "Type": "SoftLimitSwitchGroup",
+      "Description": "Group of all configs relating to software limit switches"
+    },
+    {
+      "Name": "Slot 0",
+      "Type": "SlotGroup",
+      "Description": "Group of all configs relating to slot 0"
+    },
+    {
+      "Name": "Slot 1",
+      "Type": "SlotGroup",
+      "Description": "Group of all configs relating to slot 1"
+    }
+  ]
+}

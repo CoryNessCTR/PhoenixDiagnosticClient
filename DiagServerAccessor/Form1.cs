@@ -109,6 +109,8 @@ namespace DiagServerAccessor
             {
                 c.Enabled = true;
             }
+            groupedControls.TabPages.Clear();
+
             if(deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
@@ -117,12 +119,26 @@ namespace DiagServerAccessor
                 if(dev == CTRProductStuff.Devices.TalonSRX)
                 {
                     //Populate Configs with TalonSRX.json
-                    System.IO.FileStream stream = System.IO.File.Open("TalonSRX.json", System.IO.FileMode.Open);
+                    System.IO.FileStream stream = System.IO.File.Open("TalonSRX-Grouped.json", System.IO.FileMode.Open);
                     byte[] buf = new byte[1024];
                     stream.Read(buf, 0, 1024);
                     string txt = System.Text.Encoding.UTF8.GetString(buf);
 
-                    //Fill form with relevant data
+                    DeviceConfigs configs = JsonConvert.DeserializeObject<DeviceConfigs>(txt);
+
+                    foreach(ConfigGroup group in configs.Configs)
+                    {
+                        TabPage newTab = new TabPage();
+                        newTab.Text = group.Name;
+
+                        Type t = Type.GetType("DiagServerAccessor."+group.Type);
+
+                        IControlGroup newGroup = (IControlGroup)Activator.CreateInstance(t);
+
+                        newTab.Controls.Add(newGroup.CreateLayout());
+
+                        groupedControls.TabPages.Add(newTab);
+                    }
 
                     stream.Close();
                 }

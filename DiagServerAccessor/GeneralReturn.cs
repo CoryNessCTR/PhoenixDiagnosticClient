@@ -52,6 +52,18 @@ namespace DiagServerAccessor
         public StandardizedReturn GeneralReturn;
         public DeviceDescriptor[] DeviceArray;
     }
+
+    //Config JSON's////
+    class ConfigGroup
+    {
+        public string Name;
+        public string Type;
+        public string Description;
+    }
+    class DeviceConfigs
+    {
+        public ConfigGroup[] Configs;
+    }
 }
 
 #pragma warning restore 0649

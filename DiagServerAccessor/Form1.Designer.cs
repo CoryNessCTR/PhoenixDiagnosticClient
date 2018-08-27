@@ -66,6 +66,7 @@
             this.updateDeviceButton = new System.Windows.Forms.Button();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
             this.configPanel = new System.Windows.Forms.TableLayoutPanel();
+            this.groupedControls = new System.Windows.Forms.TabControl();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -107,6 +108,7 @@
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
             this.splitContainer10.SuspendLayout();
+            this.configPanel.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer2
@@ -560,6 +562,7 @@
             this.configPanel.ColumnCount = 2;
             this.configPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
             this.configPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.configPanel.Controls.Add(this.groupedControls, 0, 0);
             this.configPanel.Dock = System.Windows.Forms.DockStyle.Fill;
             this.configPanel.Location = new System.Drawing.Point(3, 3);
             this.configPanel.Name = "configPanel";
@@ -567,6 +570,15 @@
             this.configPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.configPanel.Size = new System.Drawing.Size(657, 226);
             this.configPanel.TabIndex = 0;
+            // 
+            // groupedControls
+            // 
+            this.groupedControls.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupedControls.Location = new System.Drawing.Point(3, 3);
+            this.groupedControls.Name = "groupedControls";
+            this.groupedControls.SelectedIndex = 0;
+            this.groupedControls.Size = new System.Drawing.Size(519, 220);
+            this.groupedControls.TabIndex = 0;
             // 
             // Form1
             // 
@@ -619,6 +631,7 @@
             this.splitContainer10.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).EndInit();
             this.splitContainer10.ResumeLayout(false);
+            this.configPanel.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -663,6 +676,7 @@
         private System.Windows.Forms.SplitContainer splitContainer10;
         private System.Windows.Forms.Button updateDeviceButton;
         private System.Windows.Forms.TableLayoutPanel configPanel;
+        private System.Windows.Forms.TabControl groupedControls;
     }
 }
 
