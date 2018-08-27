@@ -37,6 +37,11 @@ namespace DiagServerAccessor
     {
         public StandardizedReturn GeneralReturn;
     }
+    class ProgressReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public int progress;
+    }
     class SelfTestReturn
     {
         public StandardizedReturn GeneralReturn;

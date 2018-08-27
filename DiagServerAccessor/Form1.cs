@@ -5,7 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
 
@@ -178,7 +178,9 @@ namespace DiagServerAccessor
                 CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
                 uint id = (uint)descriptor.ID & 0x3F;
 
-                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware);
+                new FirmwareUpgradeWindow(descriptor.Name, _connectedIp, dev, id);
+                Thread t = new Thread(() => WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware));
+                t.Start(); //Make a thread for firmware update because it blocks for too long otherwise
             }
         }
     }

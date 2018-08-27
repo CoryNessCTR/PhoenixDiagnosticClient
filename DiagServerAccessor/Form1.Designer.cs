@@ -100,7 +100,7 @@
             this.splitContainer8.Panel2.SuspendLayout();
             this.splitContainer8.SuspendLayout();
             this.deviceViewer.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
             this.splitContainer10.Panel1.SuspendLayout();
             this.splitContainer10.Panel2.SuspendLayout();
@@ -246,7 +246,7 @@
             // 
             this.splitContainer5.Panel2.Controls.Add(this.selftTestButton);
             this.splitContainer5.Size = new System.Drawing.Size(119, 62);
-            this.splitContainer5.SplitterDistance = 52;
+            this.splitContainer5.SplitterDistance = 55;
             this.splitContainer5.TabIndex = 0;
             // 
             // blinkButton
@@ -254,7 +254,7 @@
             this.blinkButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.blinkButton.Location = new System.Drawing.Point(0, 0);
             this.blinkButton.Name = "blinkButton";
-            this.blinkButton.Size = new System.Drawing.Size(52, 62);
+            this.blinkButton.Size = new System.Drawing.Size(55, 62);
             this.blinkButton.TabIndex = 0;
             this.blinkButton.Text = "Blink";
             this.blinkButton.UseVisualStyleBackColor = true;
@@ -265,7 +265,7 @@
             this.selftTestButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selftTestButton.Location = new System.Drawing.Point(0, 0);
             this.selftTestButton.Name = "selftTestButton";
-            this.selftTestButton.Size = new System.Drawing.Size(63, 62);
+            this.selftTestButton.Size = new System.Drawing.Size(60, 62);
             this.selftTestButton.TabIndex = 0;
             this.selftTestButton.Text = "Self Test";
             this.selftTestButton.UseVisualStyleBackColor = true;
@@ -496,23 +496,23 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(this.selfTestBox);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(663, 232);
             this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Self Test Results";
+            this.tabPage1.Text = "Device Information";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.selfTestBox);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(192, 74);
+            this.tabPage2.Size = new System.Drawing.Size(663, 232);
             this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "tabPage2";
+            this.tabPage2.Text = "Self Test Results";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // selfTestBox
@@ -596,7 +596,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
             this.splitContainer8.ResumeLayout(false);
             this.deviceViewer.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.tabPage2.ResumeLayout(false);
             this.splitContainer10.Panel1.ResumeLayout(false);
             this.splitContainer10.Panel1.PerformLayout();
             this.splitContainer10.Panel2.ResumeLayout(false);
