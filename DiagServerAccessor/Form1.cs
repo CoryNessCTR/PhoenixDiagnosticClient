@@ -56,6 +56,10 @@ namespace DiagServerAccessor
                     deviceView.Items.Add(new ListViewItem(array));
                 }
             }
+            foreach (Control c in deviceSpecificControls.Controls)
+            {
+                c.Enabled = false;
+            }
         }
 
         private void connectButton_Click(object sender, EventArgs e)
@@ -134,6 +138,47 @@ namespace DiagServerAccessor
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SetDeviceName, extraParameters);
 
                 refreshButton_Click(null, null); //Update GUI
+            }
+        }
+
+        private void selftTestButton_Click(object sender, EventArgs e)
+        {
+            if (deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
+
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SelfTest);
+                SelfTestReturn retClass = JsonConvert.DeserializeObject<SelfTestReturn>(ret);
+                selfTestBox.Text = retClass.SelfTest;
+            }
+        }
+
+        private void firmwareDialogButton_Click(object sender, EventArgs e)
+        {
+            if (_connectedIp != "")
+            {
+                OpenFileDialog firmwareDialog = new OpenFileDialog();
+                firmwareDialog.Filter = "CRF Firmware File|*.crf";
+                firmwareDialog.Title = "Choose a CRF File";
+                if (firmwareDialog.ShowDialog() == DialogResult.OK)
+                {
+                    fileName.Text = firmwareDialog.FileName;
+                    WebServerScripts.HttpPost(_connectedIp, firmwareDialog.OpenFile());
+                }
+            }
+        }
+
+        private void updateDeviceButton_Click(object sender, EventArgs e)
+        {
+            if (deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
+
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware);
             }
         }
     }

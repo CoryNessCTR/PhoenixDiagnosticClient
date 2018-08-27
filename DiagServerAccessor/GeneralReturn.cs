@@ -37,6 +37,11 @@ namespace DiagServerAccessor
     {
         public StandardizedReturn GeneralReturn;
     }
+    class SelfTestReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public string SelfTest;
+    }
     class GetDevicesReturn
     {
         public StandardizedReturn GeneralReturn;
