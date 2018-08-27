@@ -65,6 +65,7 @@
             this.selfTestBox = new System.Windows.Forms.RichTextBox();
             this.updateDeviceButton = new System.Windows.Forms.Button();
             this.splitContainer10 = new System.Windows.Forms.SplitContainer();
+            this.configPanel = new System.Windows.Forms.TableLayoutPanel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -100,6 +101,7 @@
             this.splitContainer8.Panel2.SuspendLayout();
             this.splitContainer8.SuspendLayout();
             this.deviceViewer.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer10)).BeginInit();
             this.splitContainer10.Panel1.SuspendLayout();
@@ -413,7 +415,7 @@
             // deviceName
             // 
             this.deviceName.Text = "Device Name";
-            this.deviceName.Width = 100;
+            this.deviceName.Width = 149;
             // 
             // hardwareName
             // 
@@ -496,6 +498,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.configPanel);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -552,6 +555,19 @@
             this.splitContainer10.SplitterDistance = 90;
             this.splitContainer10.TabIndex = 1;
             // 
+            // configPanel
+            // 
+            this.configPanel.ColumnCount = 2;
+            this.configPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 80F));
+            this.configPanel.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.configPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.configPanel.Location = new System.Drawing.Point(3, 3);
+            this.configPanel.Name = "configPanel";
+            this.configPanel.RowCount = 1;
+            this.configPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.configPanel.Size = new System.Drawing.Size(657, 226);
+            this.configPanel.TabIndex = 0;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(800, 400);
@@ -596,6 +612,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer8)).EndInit();
             this.splitContainer8.ResumeLayout(false);
             this.deviceViewer.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
             this.splitContainer10.Panel1.ResumeLayout(false);
             this.splitContainer10.Panel1.PerformLayout();
@@ -645,6 +662,7 @@
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.SplitContainer splitContainer10;
         private System.Windows.Forms.Button updateDeviceButton;
+        private System.Windows.Forms.TableLayoutPanel configPanel;
     }
 }
 

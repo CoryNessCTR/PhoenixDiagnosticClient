@@ -1,0 +1,10 @@
+{
+	"Names": [
+		"clRampRate",
+		"dGain",
+		"fGain",
+		"iGain",
+		"iZone",
+		"pGain"
+	]
+}

@@ -92,6 +92,7 @@ namespace DiagServerAccessor
             }
             catch(Exception e)
             {
+                Console.WriteLine(e.ToString());
                 retval = "Failed";
             }
 

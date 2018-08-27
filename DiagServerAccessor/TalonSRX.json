@@ -1,0 +1,50 @@
+{
+	"Configs": [{
+		"Name": "Neutral Mode",
+		"Type": "Enum",
+		"Value": "Brake",
+		"Description": "Mode of operation during Neutral Output"
+	},
+	{
+		"Name": "Limit Switch Forward"
+		"Type": "Enum",
+		"Value": "Normally Open",
+		"Description": "Mode of operation of forward limit switch"
+	},
+	{
+		"Name": "Limit Switch Reverse"
+		"Type": "Enum",
+		"Value": "Normally Open",
+		"Description": "Mode of operation of reverse limit switch"
+	},
+	{
+		"Name": "Forward Soft Limit Enable"
+		"Type": "Bool",
+		"Value": "False",
+		"Description": "Enables forward soft limit"
+	},
+	{
+		"Name": "Reverse Soft Limit Enable"
+		"Type": "Bool",
+		"Value": "False",
+		"Description": "Enables reverse soft limit"
+	},
+	{
+		"Name": "Soft Limit Forward Value"
+		"Type": "Int",
+		"Value": "0",
+		"Description": "Value at which forward soft limit is triggered"
+	},
+	{
+		"Name": "Soft Limit Reverse Value"
+		"Type": "Int",
+		"Value": "0",
+		"Description": "Value at which reverse soft limit is triggered"
+	},
+	{
+		"Name": "Slot0"
+		"Type": "Struct",
+		"Value": "0",
+		"Description": "All values of Slot 0"
+	}]
+}

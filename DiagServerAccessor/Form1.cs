@@ -109,6 +109,24 @@ namespace DiagServerAccessor
             {
                 c.Enabled = true;
             }
+            if(deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+
+                if(dev == CTRProductStuff.Devices.TalonSRX)
+                {
+                    //Populate Configs with TalonSRX.json
+                    System.IO.FileStream stream = System.IO.File.Open("TalonSRX.json", System.IO.FileMode.Open);
+                    byte[] buf = new byte[1024];
+                    stream.Read(buf, 0, 1024);
+                    string txt = System.Text.Encoding.UTF8.GetString(buf);
+
+                    //Fill form with relevant data
+
+                    stream.Close();
+                }
+            }
         }
 
         private void idChangeButton_Click(object sender, EventArgs e)
