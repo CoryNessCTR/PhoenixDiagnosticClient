@@ -23,25 +23,49 @@ namespace DiagServerAccessor
         }
 
 
-        public static async void HttpPost(string ip, Stream file)
+        public static async System.Threading.Tasks.Task<string> HttpPost(string ip, Stream file)
         {
-            HttpContent filestream = new StreamContent(file);
-            MultipartFormDataContent mpData = new MultipartFormDataContent();
-            mpData.Add(filestream);
-            
-            var client = new HttpClient();
+            string boundary = "||-----------------||";
+            WebRequest client = WebRequest.Create(ip);
+            client.Method = "POST";
+            client.ContentLength = file.Length + boundary.Length + 2 + boundary.Length + 4 ;
+            client.ContentType = "multipart/form-data; boundary=\""+boundary+"\"\r\n\r\n";
+            Stream mpStream = client.GetRequestStream();
+
+            /* Follow convention of form-data with boundaries */
+            mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
+            mpStream.Write(Encoding.UTF8.GetBytes(boundary), 0, boundary.Length);
+            file.CopyTo(mpStream);
+            mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
+            mpStream.Write(Encoding.UTF8.GetBytes(boundary), 0, boundary.Length);
+            mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
+
+            mpStream.Close();
+            string retval;
             try
             {
-                var response = await client.PostAsync(ip, mpData);
+                WebResponse response = client.GetResponse();
+                Stream dataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(dataStream);
+                //Got the string resposne
+                retval = reader.ReadToEnd();
+
+                //Clean up afterwards
+                reader.Close();
+                dataStream.Close();
+                response.Close();
+
+                return retval;
             }
             catch(Exception e)
             {
                 Console.WriteLine(e.ToString());
+                return "";
             }
         }
-        public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
+        public static string buildIP(string baseIP, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {
-            string address = ip;
+            string address = baseIP;
             address += "?";
             switch (device)
             {
@@ -52,7 +76,7 @@ namespace DiagServerAccessor
                     break;
             }
             address += "&";
-            
+
             address += "id=" + deviceID;
 
             address += "&";
@@ -72,6 +96,11 @@ namespace DiagServerAccessor
                     address += CTRProductStuff.ActionMap[action];
                     break;
             }
+            return address;
+        }
+        public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
+        {
+            string address = buildIP(ip, device, deviceID, action, extraOptions);
             Console.WriteLine(address);
             string retval = "";
             //Request a GET at specified address

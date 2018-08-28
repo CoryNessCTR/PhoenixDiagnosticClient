@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
+using System.IO;
 using System.Threading;
 using System.Windows.Forms;
 using Newtonsoft.Json;
@@ -123,29 +118,36 @@ namespace DiagServerAccessor
                 CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
                 uint id = (uint)descriptor.ID & 0x3F;
 
-                if (dev == CTRProductStuff.Devices.TalonSRX)
+                //Populate Configs with TalonSRX.json
+                FileStream configParams = File.Open("TalonSRX-Grouped.json", FileMode.Open);
+                string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
+                string txt = WebServerScripts.HttpPost(builtIP, configParams).Result;
+
+                GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
+
+                if (configs == null || configs.Device == null || configs.Device.Configs == null)
                 {
-                    //Populate Configs with TalonSRX.json
-                    string txt = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
-
-                    GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
-
-                    foreach (ConfigGroup group in configs.Device.Configs)
-                    {
-                        TabPage newTab = new TabPage();
-                        newTab.Text = group.Name;
-
-                        Type t = Type.GetType("DiagServerAccessor." + group.Type);
-
-                        IControlGroup newGroup = (IControlGroup)Activator.CreateInstance(t);
-
-                        newGroup.SetFromValues(group.Values, group.Ordinal);
-
-                        newTab.Controls.Add(newGroup.CreateLayout());
-
-                        groupedControls.TabPages.Add(newTab);
-                    }
+                    configParams.Close();
+                    return;
                 }
+
+                foreach (ConfigGroup group in configs.Device.Configs)
+                {
+                    TabPage newTab = new TabPage();
+                    newTab.Text = group.Name;
+
+                    Type t = Type.GetType("DiagServerAccessor." + group.Type);
+
+                    IControlGroup newGroup = (IControlGroup)Activator.CreateInstance(t);
+
+                    newGroup.SetFromValues(group.Values, group.Ordinal);
+
+                    newTab.Controls.Add(newGroup.CreateLayout());
+
+                    groupedControls.TabPages.Add(newTab);
+                }
+
+                configParams.Close();
             }
         }
 
