@@ -52,6 +52,11 @@ namespace DiagServerAccessor
         public StandardizedReturn GeneralReturn;
         public DeviceDescriptor[] DeviceArray;
     }
+    class GetConfigsReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public DeviceConfigs Device;
+    }
 
     //Config JSON's////
     class ConfigGroup
@@ -59,6 +64,9 @@ namespace DiagServerAccessor
         public string Name;
         public string Type;
         public string Description;
+        public int Ordinal;
+
+        public object Values;
     }
     class DeviceConfigs
     {

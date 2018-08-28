@@ -78,6 +78,7 @@ namespace DiagServerAccessor
 
             //Check the connected box if we successfully got the return message
             connectedIndicator.Checked = true;//myReponse.GeneralReturn.Error == WebServerScripts.PingReturn;
+            refreshButton_Click(null, null);
         }
         
         private void ipAddrSelector_TextChanged(object sender, EventArgs e)
@@ -109,38 +110,41 @@ namespace DiagServerAccessor
             {
                 c.Enabled = true;
             }
-            groupedControls.TabPages.Clear();
 
-            if(deviceView.SelectedItems.Count == 1)
+            refreshConfigs();
+        }
+
+        private void refreshConfigs()
+        {
+            groupedControls.TabPages.Clear();
+            if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
                 CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
 
-                if(dev == CTRProductStuff.Devices.TalonSRX)
+                if (dev == CTRProductStuff.Devices.TalonSRX)
                 {
                     //Populate Configs with TalonSRX.json
-                    System.IO.FileStream stream = System.IO.File.Open("TalonSRX-Grouped.json", System.IO.FileMode.Open);
-                    byte[] buf = new byte[1024];
-                    stream.Read(buf, 0, 1024);
-                    string txt = System.Text.Encoding.UTF8.GetString(buf);
+                    string txt = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
 
-                    DeviceConfigs configs = JsonConvert.DeserializeObject<DeviceConfigs>(txt);
+                    GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
 
-                    foreach(ConfigGroup group in configs.Configs)
+                    foreach (ConfigGroup group in configs.Device.Configs)
                     {
                         TabPage newTab = new TabPage();
                         newTab.Text = group.Name;
 
-                        Type t = Type.GetType("DiagServerAccessor."+group.Type);
+                        Type t = Type.GetType("DiagServerAccessor." + group.Type);
 
                         IControlGroup newGroup = (IControlGroup)Activator.CreateInstance(t);
+
+                        newGroup.SetFromValues(group.Values, group.Ordinal);
 
                         newTab.Controls.Add(newGroup.CreateLayout());
 
                         groupedControls.TabPages.Add(newTab);
                     }
-
-                    stream.Close();
                 }
             }
         }
@@ -216,6 +220,16 @@ namespace DiagServerAccessor
                 Thread t = new Thread(() => WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware));
                 t.Start(); //Make a thread for firmware update because it blocks for too long otherwise
             }
+        }
+
+        private void saveConfigButton_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void refreshConfigButton_Click(object sender, EventArgs e)
+        {
+            refreshConfigs();
         }
     }
 }

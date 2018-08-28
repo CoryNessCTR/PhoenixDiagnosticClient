@@ -1,10 +1,12 @@
 ﻿using System.Windows.Forms;
+using Newtonsoft.Json;
 
 namespace DiagServerAccessor
 {
     interface IControlGroup
     {
         Panel CreateLayout();
+        void SetFromValues(object values, int ordinal);
     }
 
     class MotorOutputGroup : IControlGroup
@@ -16,6 +18,12 @@ namespace DiagServerAccessor
         }
 
         public eNeutralMode NeutralMode;
+
+        public void SetFromValues(object values, int ordinal)
+        {
+            MotorOutputGroup newGroup = JsonConvert.DeserializeObject<MotorOutputGroup>(JsonConvert.SerializeObject(values));
+            NeutralMode = newGroup.NeutralMode;
+        }
 
         public Panel CreateLayout()
         {
@@ -55,6 +63,13 @@ namespace DiagServerAccessor
 
         public eModeOfOperation LimitSwitchForward;
         public eModeOfOperation LimitSwitchReverse;
+
+        public void SetFromValues(object values, int ordinal)
+        {
+            HardLimitSwitchGroup newGroup = JsonConvert.DeserializeObject<HardLimitSwitchGroup>(JsonConvert.SerializeObject(values));
+            LimitSwitchForward = newGroup.LimitSwitchForward;
+            LimitSwitchReverse = newGroup.LimitSwitchReverse;
+        }
 
         public Panel CreateLayout()
         {
@@ -102,9 +117,18 @@ namespace DiagServerAccessor
     {
         public bool ForwardSoftLimitEnable;
         public bool ReverseSoftLimitEnable;
-        public int SoftLimitForwardValue;
-        public int SoftLimitReverseValue;
+        public float SoftLimitForwardValue;
+        public float SoftLimitReverseValue;
 
+
+        public void SetFromValues(object values, int ordinal)
+        {
+            SoftLimitSwitchGroup newGroup = JsonConvert.DeserializeObject<SoftLimitSwitchGroup>(JsonConvert.SerializeObject(values));
+            ForwardSoftLimitEnable = newGroup.ForwardSoftLimitEnable;
+            ReverseSoftLimitEnable = newGroup.ReverseSoftLimitEnable;
+            SoftLimitForwardValue = newGroup.SoftLimitForwardValue;
+            SoftLimitReverseValue = newGroup.SoftLimitReverseValue;
+        }
 
         public Panel CreateLayout()
         {
@@ -135,14 +159,16 @@ namespace DiagServerAccessor
             NumericUpDown forwardValue = new NumericUpDown();
             forwardValue.Minimum = decimal.MinValue;
             forwardValue.Maximum = decimal.MaxValue;
+            forwardValue.DecimalPlaces = 5;
             forwardValue.Dock = DockStyle.Fill;
-            forwardValue.Value = SoftLimitForwardValue;
+            forwardValue.Value = (decimal)SoftLimitForwardValue;
 
             NumericUpDown reverseValue = new NumericUpDown();
             reverseValue.Minimum = decimal.MinValue;
             reverseValue.Maximum = decimal.MaxValue;
+            reverseValue.DecimalPlaces = 5;
             reverseValue.Dock = DockStyle.Fill;
-            reverseValue.Value = SoftLimitReverseValue;
+            reverseValue.Value = (decimal)SoftLimitReverseValue;
 
             TableLayoutPanel grid = new TableLayoutPanel();
             grid.RowCount = 4;
@@ -167,6 +193,7 @@ namespace DiagServerAccessor
 
     class SlotGroup : IControlGroup
     {
+        public int SlotNumber;
         public float pGain;
         public float iGain;
         public float dGain;
@@ -174,8 +201,24 @@ namespace DiagServerAccessor
         public float iZone;
         public float clRampRate;
 
+        public void SetFromValues(object values, int ordinal)
+        {
+            SlotGroup newGroup = JsonConvert.DeserializeObject<SlotGroup>(JsonConvert.SerializeObject(values));
+            SlotNumber = ordinal;
+            pGain = newGroup.pGain;
+            iGain = newGroup.iGain;
+            dGain = newGroup.dGain;
+            fGain = newGroup.fGain;
+            iZone = newGroup.iZone;
+            clRampRate = newGroup.clRampRate;
+        }
+
         public Panel CreateLayout()
         {
+            Label slotNumberLabel = new Label();
+            slotNumberLabel.Text = "Slot Number";
+            slotNumberLabel.Dock = DockStyle.Fill;
+
             Label pLabel = new Label();
             pLabel.Text = "P Gain";
             pLabel.Dock = DockStyle.Fill;
@@ -200,27 +243,37 @@ namespace DiagServerAccessor
             clRampLabel.Text = "Closed Loop Ramp Rate";
             clRampLabel.Dock = DockStyle.Fill;
 
+            NumericUpDown slotNumber = new NumericUpDown();
+            slotNumber.Minimum = 0;
+            slotNumber.Maximum = 4;
+            slotNumber.Dock = DockStyle.Fill;
+            slotNumber.Value = (decimal)SlotNumber;
+
             NumericUpDown p = new NumericUpDown();
             p.Minimum = decimal.MinValue;
             p.Maximum = decimal.MaxValue;
+            p.DecimalPlaces = 5;
             p.Dock = DockStyle.Fill;
             p.Value = (decimal)pGain;
 
             NumericUpDown i = new NumericUpDown();
             i.Minimum = decimal.MinValue;
             i.Maximum = decimal.MaxValue;
+            i.DecimalPlaces = 5;
             i.Dock = DockStyle.Fill;
             i.Value = (decimal)iGain;
 
             NumericUpDown d = new NumericUpDown();
             d.Minimum = decimal.MinValue;
             d.Maximum = decimal.MaxValue;
+            d.DecimalPlaces = 5;
             d.Dock = DockStyle.Fill;
             d.Value = (decimal)dGain;
 
             NumericUpDown f = new NumericUpDown();
             f.Minimum = decimal.MinValue;
             f.Maximum = decimal.MaxValue;
+            f.DecimalPlaces = 5;
             f.Dock = DockStyle.Fill;
             f.Value = (decimal)fGain;
 
@@ -233,14 +286,17 @@ namespace DiagServerAccessor
             NumericUpDown clRamp = new NumericUpDown();
             clRamp.Minimum = decimal.MinValue;
             clRamp.Maximum = decimal.MaxValue;
+            p.DecimalPlaces = 5;
             clRamp.Dock = DockStyle.Fill;
             clRamp.Value = (decimal)clRampRate;
 
 
             TableLayoutPanel grid = new TableLayoutPanel();
-            grid.RowCount = 6;
+            grid.RowCount = 7;
             grid.ColumnCount = 2;
             grid.Dock = DockStyle.Fill;
+            grid.Controls.Add(slotNumberLabel);
+            grid.Controls.Add(slotNumber);
             grid.Controls.Add(pLabel);
             grid.Controls.Add(p);
             grid.Controls.Add(ilabel);
