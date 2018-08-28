@@ -30,8 +30,8 @@
 	  "Values": {
 		  "ForwardSoftLimitEnable": false,
 		  "ReverseSoftLimitEnable": false,
-		  "SoftLimitForwardValue": 0,
-		  "SoftLimitReverseValue": 0
+		  "SoftLimitForwardValue": 0.0,
+		  "SoftLimitReverseValue": 0.0
 	  }
     },
     {
