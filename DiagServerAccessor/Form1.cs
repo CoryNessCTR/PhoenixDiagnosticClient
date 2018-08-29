@@ -111,6 +111,7 @@ namespace DiagServerAccessor
         {
             deviceView.Items.Clear();
             connectedIndicator.Checked = false;
+            refreshConfigs();
             _connectedIp = "";
             foreach (Control c in deviceSpecificControls.Controls)
             {

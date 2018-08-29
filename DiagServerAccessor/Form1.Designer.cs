@@ -74,6 +74,7 @@
             this.connectedIndicator = new System.Windows.Forms.RadioButton();
             this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.errorMessageBox = new System.Windows.Forms.RichTextBox();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -122,6 +123,7 @@
             this.splitContainer4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
             this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
             this.splitContainer9.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -378,7 +380,7 @@
             this.ipAddrSelector.Name = "ipAddrSelector";
             this.ipAddrSelector.Size = new System.Drawing.Size(125, 21);
             this.ipAddrSelector.TabIndex = 0;
-            this.ipAddrSelector.TextUpdate += new System.EventHandler(this.ipAddrSelector_TextChanged);
+            this.ipAddrSelector.TextChanged += new System.EventHandler(this.ipAddrSelector_TextChanged);
             // 
             // label1
             // 
@@ -647,6 +649,10 @@
             // splitContainer9.Panel1
             // 
             this.splitContainer9.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.errorMessageBox);
             this.splitContainer9.Size = new System.Drawing.Size(125, 400);
             this.splitContainer9.SplitterDistance = 328;
             this.splitContainer9.TabIndex = 4;
@@ -661,6 +667,16 @@
             this.imageList1.Images.SetKeyName(3, "Canifier_48.png");
             this.imageList1.Images.SetKeyName(4, "PCM_48.png");
             this.imageList1.Images.SetKeyName(5, "PDP_48.png");
+            // 
+            // errorMessageBox
+            // 
+            this.errorMessageBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorMessageBox.Enabled = false;
+            this.errorMessageBox.Location = new System.Drawing.Point(0, 0);
+            this.errorMessageBox.Name = "errorMessageBox";
+            this.errorMessageBox.Size = new System.Drawing.Size(125, 68);
+            this.errorMessageBox.TabIndex = 0;
+            this.errorMessageBox.Text = "";
             // 
             // Form1
             // 
@@ -719,6 +735,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
             this.splitContainer4.ResumeLayout(false);
             this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
             this.splitContainer9.ResumeLayout(false);
             this.ResumeLayout(false);
@@ -771,6 +788,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button refreshButton;
         private System.Windows.Forms.ImageList imageList1;
+        private System.Windows.Forms.RichTextBox errorMessageBox;
     }
 }
 
