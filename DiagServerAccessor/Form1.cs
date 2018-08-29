@@ -28,14 +28,19 @@ namespace DiagServerAccessor
         {
             //On refresh poll for possible IP's and populate combobox with them
             _ipAddrItems.Clear();
-            foreach(string addr in WebServerScripts.GetIPAddrs())
+            foreach (string addr in WebServerScripts.GetIPAddrs())
             {
                 _ipAddrItems.Add(addr);
             }
             deviceView.Items.Clear();
-            if (_connectedIp != "")
-                _deviceStatus = JsonConvert.DeserializeObject<GetDevicesReturn>
-                    (WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList));
+            refreshConfigs();
+            if (_connectedIp == "")
+                return;
+            string devices = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList);
+            if(devices == "Failed")
+                return;
+
+            _deviceStatus = JsonConvert.DeserializeObject<GetDevicesReturn>(devices);
             if(_deviceStatus != null)
             {
                 foreach(DeviceDescriptor d in _deviceStatus.DeviceArray)
@@ -64,15 +69,16 @@ namespace DiagServerAccessor
                 return;
 
             //If connecting and box is not empty, use that address
-            _connectedIp = "http://" + ipAddrSelector.Text + ":8181/";
+            string candidateIP = "http://" + ipAddrSelector.Text + ":8181/";
 
             //Send request to root server as a form of "ping"
-            string response = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.None);
+            string response = WebServerScripts.HttpGet(candidateIP, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.None, "", 2000);
             if (response.Equals("Failed")) return;
             EmptyReturn myReponse = JsonConvert.DeserializeObject<EmptyReturn>(response);
 
             //Check the connected box if we successfully got the return message
             connectedIndicator.Checked = true;//myReponse.GeneralReturn.Error == WebServerScripts.PingReturn;
+            _connectedIp = candidateIP;
             refreshButton_Click(null, null);
         }
         
@@ -129,11 +135,11 @@ namespace DiagServerAccessor
                         configParams = File.Open("VictorSPX.json", FileMode.Open);
                         break;
                     default:
-                        configParams = File.Open("TalonSRX.json", FileMode.Open);
+                        configParams = File.Open("NotRecognized.json", FileMode.Open);
                         break;
                 }
                 string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
-                string txt = WebServerScripts.HttpPost(builtIP, configParams).Result;
+                string txt = WebServerScripts.HttpPost(builtIP, configParams);
 
                 GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
 
@@ -145,12 +151,12 @@ namespace DiagServerAccessor
 
                 foreach (ConfigGroup group in configs.Device.Configs)
                 {
-                    TabPage newTab = new TabPage();
-                    newTab.Text = group.Name;
-
                     Type t = Type.GetType("DiagServerAccessor." + group.Type);
 
                     IControlGroup newGroup = (IControlGroup)Activator.CreateInstance(t);
+
+                    GroupTabPage newTab = new GroupTabPage(newGroup);
+                    newTab.Text = group.Name;
 
                     newGroup.SetFromValues(group.Values, group.Ordinal);
 
@@ -231,14 +237,46 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 new FirmwareUpgradeWindow(descriptor.Name, _connectedIp, dev, id);
-                Thread t = new Thread(() => WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware));
+                Thread t = new Thread(() => WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware, "", 60000)); //Wait up to one minute
+                t.IsBackground = false; //Make sure firmware update finished before closing thread
                 t.Start(); //Make a thread for firmware update because it blocks for too long otherwise
             }
         }
 
         private void saveConfigButton_Click(object sender, EventArgs e)
         {
+            if (deviceView.SelectedItems.Count == 1)
+            {
+                var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                uint id = (uint)descriptor.ID & 0x3F;
 
+
+                MemoryStream outputStream = new MemoryStream();
+                DeviceConfigs allConfigs = new DeviceConfigs();
+                System.Collections.Generic.List<ConfigGroup> listOfConfigs = new System.Collections.Generic.List<ConfigGroup>();
+                foreach (TabPage tab in groupedControls.TabPages)
+                {
+                    IControlGroup group = ((GroupTabPage)tab).group.GetFromValues((GroupTabPage)tab);
+                    ConfigGroup newGroup = new ConfigGroup();
+                    newGroup.Name = tab.Text;
+                    newGroup.Type = group.GetType().Name;
+                    newGroup.Ordinal = 0;
+                    if (group is SlotGroup)
+                        newGroup.Ordinal = ((SlotGroup)group).SlotNumber;
+                    newGroup.Values = group;
+
+                    listOfConfigs.Add(newGroup);
+                }
+                allConfigs.Configs = listOfConfigs.ToArray();
+                string jsonToWrite = JsonConvert.SerializeObject(allConfigs);
+
+                string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.SetConfig);
+                outputStream.Write(System.Text.Encoding.UTF8.GetBytes(jsonToWrite), 0, jsonToWrite.Length);
+                outputStream.Flush();
+                string ret = WebServerScripts.HttpPost(builtIP, jsonToWrite);
+                outputStream.Close();
+            }
         }
 
         private void refreshConfigButton_Click(object sender, EventArgs e)

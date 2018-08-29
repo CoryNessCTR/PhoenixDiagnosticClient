@@ -7,8 +7,18 @@ namespace DiagServerAccessor
     {
         Panel CreateLayout();
         void SetFromValues(object values, int ordinal);
+        IControlGroup GetFromValues(GroupTabPage tab);
     }
 
+
+    class GroupTabPage : TabPage
+    {
+        public IControlGroup group;
+        public GroupTabPage(IControlGroup motorGroup) : base()
+        {
+            group = motorGroup;
+        }
+    }
     class MotorOutputGroup : IControlGroup
     {
         public enum eNeutralMode
@@ -18,6 +28,19 @@ namespace DiagServerAccessor
         }
 
         public eNeutralMode NeutralMode;
+
+        public IControlGroup GetFromValues(GroupTabPage tab)
+        {
+            var allControls = ((TableLayoutPanel)((Panel)tab.Controls[0]).Controls[0]).Controls;
+            foreach(Control c in allControls)
+            {
+                if(c is ComboBox)
+                {
+                    NeutralMode = (eNeutralMode)((ComboBox)c).SelectedItem;
+                }
+            }
+            return this;
+        }
 
         public void SetFromValues(object values, int ordinal)
         {
@@ -63,6 +86,31 @@ namespace DiagServerAccessor
 
         public eModeOfOperation LimitSwitchForward;
         public eModeOfOperation LimitSwitchReverse;
+
+        public IControlGroup GetFromValues(GroupTabPage tab)
+        {
+            var allControls = ((TableLayoutPanel)((Panel)tab.Controls[0]).Controls[0]).Controls;
+            int state = 0;
+            foreach (Control c in allControls)
+            {
+                if (c is ComboBox)
+                {
+                    ComboBox combo = (ComboBox)c;
+                    switch(state)
+                    {
+                        case 0:
+                            //Forward limit switch
+                            LimitSwitchForward = (eModeOfOperation)combo.SelectedItem;
+                            state = 1;
+                            break;
+                        case 1:
+                            LimitSwitchReverse = (eModeOfOperation)combo.SelectedItem;
+                            break;
+                    }
+                }
+            }
+            return this;
+        }
 
         public void SetFromValues(object values, int ordinal)
         {
@@ -120,6 +168,46 @@ namespace DiagServerAccessor
         public float SoftLimitForwardValue;
         public float SoftLimitReverseValue;
 
+        public IControlGroup GetFromValues(GroupTabPage tab)
+        {
+            var allControls = ((TableLayoutPanel)((Panel)tab.Controls[0]).Controls[0]).Controls;
+            int checkState = 0;
+            int numericState = 0;
+            foreach (Control c in allControls)
+            {
+                if (c is CheckBox)
+                {
+                    CheckBox check = (CheckBox)c;
+                    switch (checkState)
+                    {
+                        case 0:
+                            //Forward limit switch
+                            ForwardSoftLimitEnable = check.Checked;
+                            checkState = 1;
+                            break;
+                        case 1:
+                            ReverseSoftLimitEnable = check.Checked;
+                            break;
+                    }
+                }
+                if(c is NumericUpDown)
+                {
+                    NumericUpDown numeric = (NumericUpDown)c;
+                    switch (numericState)
+                    {
+                        case 0:
+                            //Forward limit switch
+                            SoftLimitForwardValue = (float)numeric.Value;
+                            numericState = 1;
+                            break;
+                        case 1:
+                            SoftLimitReverseValue = (float)numeric.Value;
+                            break;
+                    }
+                }
+            }
+            return this;
+        }
 
         public void SetFromValues(object values, int ordinal)
         {
@@ -200,6 +288,57 @@ namespace DiagServerAccessor
         public float fGain;
         public float iZone;
         public float clRampRate;
+
+        public IControlGroup GetFromValues(GroupTabPage tab)
+        {
+            var allControls = ((TableLayoutPanel)((Panel)tab.Controls[0]).Controls[0]).Controls;
+            int state = 0;
+            foreach (Control c in allControls)
+            {
+                if (c is NumericUpDown)
+                {
+                    NumericUpDown numeric = (NumericUpDown)c;
+                    switch (state)
+                    {
+                        case 0:
+                            //Forward limit switch
+                            SlotNumber = (int)numeric.Value;
+                            state = 1;
+                            break;
+                        case 1:
+                            //Forward limit switch
+                            pGain = (float)numeric.Value;
+                            state = 2;
+                            break;
+                        case 2:
+                            //Forward limit switch
+                            iGain = (float)numeric.Value;
+                            state = 3;
+                            break;
+                        case 3:
+                            //Forward limit switch
+                            dGain = (float)numeric.Value;
+                            state = 4;
+                            break;
+                        case 4:
+                            //Forward limit switch
+                            fGain = (float)numeric.Value;
+                            state = 5;
+                            break;
+                        case 5:
+                            //Forward limit switch
+                            iZone = (float)numeric.Value;
+                            state = 6;
+                            break;
+                        case 6:
+                            //Forward limit switch
+                            clRampRate = (float)numeric.Value;
+                            break;
+                    }
+                }
+            }
+            return this;
+        }
 
         public void SetFromValues(object values, int ordinal)
         {

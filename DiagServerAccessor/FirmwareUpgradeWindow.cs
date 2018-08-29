@@ -38,6 +38,7 @@ namespace DiagServerAccessor
             Show();
 
             Thread t = new Thread(() => updateThread(ip, device, deviceID, pr));
+            t.IsBackground = true;
             t.Start();            
         }
 
