@@ -37,8 +37,12 @@ namespace DiagServerAccessor
             if (_connectedIp == "")
                 return;
             string devices = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList);
-            if(devices == "Failed")
+            
+            if (devices == "Failed")
+            {
+                updateReturnTextBox();
                 return;
+            }
 
             _deviceStatus = JsonConvert.DeserializeObject<GetDevicesReturn>(devices);
             if(_deviceStatus != null)
@@ -81,6 +85,7 @@ namespace DiagServerAccessor
                     deviceView.Items.Add(new ListViewItem(array, imageKey));
                 }
             }
+            updateReturnTextBox(_deviceStatus.GeneralReturn.Error, _deviceStatus.GeneralReturn.ErrorMessage);
             foreach (Control c in deviceSpecificControls.Controls)
             {
                 c.Enabled = false;
@@ -98,9 +103,13 @@ namespace DiagServerAccessor
 
             //Send request to root server as a form of "ping"
             string response = WebServerScripts.HttpGet(candidateIP, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.None, "", 2000);
-            if (response.Equals("Failed")) return;
+            if (response.Equals("Failed"))
+            {
+                updateReturnTextBox();
+                return;
+            }
             EmptyReturn myReponse = JsonConvert.DeserializeObject<EmptyReturn>(response);
-
+            updateReturnTextBox(0, "Connected");
             //Check the connected box if we successfully got the return message
             connectedIndicator.Checked = true;//myReponse.GeneralReturn.Error == WebServerScripts.PingReturn;
             _connectedIp = candidateIP;
@@ -128,6 +137,14 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.Blink);
+                if (ret == "Failed")
+                {
+                    updateReturnTextBox(-999, "Failed to transmit message");
+                    return;
+                }
+                BlinkReturn tmp = JsonConvert.DeserializeObject<BlinkReturn>(ret);
+
+                updateReturnTextBox(tmp.GeneralReturn.Error, tmp.GeneralReturn.ErrorMessage);
             }
         }
 
@@ -166,12 +183,18 @@ namespace DiagServerAccessor
                 }
                 string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
                 string txt = WebServerScripts.HttpPost(builtIP, configParams);
+                configParams.Close();
+
+                if (txt == "Failed")
+                {
+                    updateReturnTextBox();
+                    return;
+                }
 
                 GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
 
                 if (configs == null || configs.Device == null || configs.Device.Configs == null)
                 {
-                    configParams.Close();
                     return;
                 }
 
@@ -190,8 +213,6 @@ namespace DiagServerAccessor
 
                     groupedControls.TabPages.Add(newTab);
                 }
-
-                configParams.Close();
             }
         }
 
@@ -205,7 +226,15 @@ namespace DiagServerAccessor
                 string extraParameters = "&newid=" + ((int)idChanger.Value).ToString();
 
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SetID, extraParameters);
+                if(ret == "Failed")
+                {
+                    updateReturnTextBox();
+                    refreshButton_Click(null, null); //Update GUI
+                    return;
+                }
 
+                IDReturn retJson = JsonConvert.DeserializeObject<IDReturn>(ret);
+                updateReturnTextBox(retJson.GeneralReturn.Error, retJson.GeneralReturn.ErrorMessage);
                 refreshButton_Click(null, null); //Update GUI
             }
         }
@@ -220,7 +249,14 @@ namespace DiagServerAccessor
                 string extraParameters = "&newname=" + nameChanger.Text;
 
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SetDeviceName, extraParameters);
-
+                if (ret == "Failed")
+                {
+                    updateReturnTextBox();
+                    refreshButton_Click(null, null); //Update GUI
+                    return;
+                }
+                NameReturn retJson = JsonConvert.DeserializeObject<NameReturn>(ret);
+                updateReturnTextBox(retJson.GeneralReturn.Error, retJson.GeneralReturn.ErrorMessage);
                 refreshButton_Click(null, null); //Update GUI
             }
         }
@@ -234,7 +270,13 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SelfTest);
+                if (ret == "Failed")
+                {
+                    updateReturnTextBox();
+                    return;
+                }
                 SelfTestReturn retClass = JsonConvert.DeserializeObject<SelfTestReturn>(ret);
+                updateReturnTextBox(retClass.GeneralReturn.Error, retClass.GeneralReturn.ErrorMessage);
                 selfTestBox.Text = retClass.SelfTest;
             }
         }
@@ -249,7 +291,7 @@ namespace DiagServerAccessor
                 if (firmwareDialog.ShowDialog() == DialogResult.OK)
                 {
                     fileName.Text = firmwareDialog.FileName;
-                    WebServerScripts.HttpPost(_connectedIp, firmwareDialog.OpenFile());
+                    string ret = WebServerScripts.HttpPost(_connectedIp, firmwareDialog.OpenFile());
                 }
             }
         }
@@ -301,6 +343,12 @@ namespace DiagServerAccessor
                 {
                     string ret = WebServerScripts.HttpPost(builtIP, outputStream);
                     outputStream.Close();
+                    if (ret == "Failed")
+                    {
+                        updateReturnTextBox();
+                        return;
+                    }
+                    updateReturnTextBox(0, "Sent Message");
                 }
             }
         }
@@ -308,6 +356,26 @@ namespace DiagServerAccessor
         private void refreshConfigButton_Click(object sender, EventArgs e)
         {
             refreshConfigs();
+        }
+
+        private void updateReturnTextBox(int errorCode = -999, string message = "Did not get a response")
+        {
+
+            string messageColor;
+            if (errorCode == 0) messageColor = "green";
+            else messageColor = "red";
+
+            string textBox = "<!DOCTYPE html><html>";
+
+            textBox += "<p><font color=\""+messageColor+"\"; font size = \"3\">Error Code: " + errorCode + "</font></p>";
+            textBox += "<p><font size =\"1\">Message: " + message + "</font></p>";
+
+            textBox += "</html>";
+
+            errorMessageHandler.Navigate("about:blank");
+            errorMessageHandler.Document.OpenNew(false);
+            errorMessageHandler.Document.Write(textBox);
+            errorMessageHandler.Refresh();
         }
     }
 }

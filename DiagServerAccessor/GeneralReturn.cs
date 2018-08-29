@@ -37,6 +37,16 @@ namespace DiagServerAccessor
     {
         public StandardizedReturn GeneralReturn;
     }
+    class IDReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public int NewID;
+    }
+    class NameReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public string NewName;
+    }
     class ProgressReturn
     {
         public StandardizedReturn GeneralReturn;
