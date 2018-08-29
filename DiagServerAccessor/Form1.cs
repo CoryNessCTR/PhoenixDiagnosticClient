@@ -45,6 +45,7 @@ namespace DiagServerAccessor
             {
                 foreach(DeviceDescriptor d in _deviceStatus.DeviceArray)
                 {
+                    CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[d.Model];
                     string[] array = new string[7];
                     array[0] = d.Name;
                     array[1] = d.Model;
@@ -53,7 +54,31 @@ namespace DiagServerAccessor
                     array[4] = d.ManDate;
                     array[5] = d.BootloaderRev;
                     array[6] = d.SoftStatus;
-                    deviceView.Items.Add(new ListViewItem(array));
+
+                    int imageKey = 0;
+                    switch(dev)
+                    {
+                        case CTRProductStuff.Devices.TalonSRX:
+                            imageKey = 0;
+                            break;
+                        case CTRProductStuff.Devices.VictorSPX:
+                            imageKey = 1;
+                            break;
+                        case CTRProductStuff.Devices.PigeonIMU:
+                            imageKey = 2;
+                            break;
+                        case CTRProductStuff.Devices.CANifier:
+                            imageKey = 3;
+                            break;
+                        case CTRProductStuff.Devices.PCM:
+                            imageKey = 4;
+                            break;
+                        case CTRProductStuff.Devices.PDP:
+                            imageKey = 5;
+                            break;
+                    }
+
+                    deviceView.Items.Add(new ListViewItem(array, imageKey));
                 }
             }
             foreach (Control c in deviceSpecificControls.Controls)
