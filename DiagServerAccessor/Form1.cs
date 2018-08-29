@@ -252,7 +252,6 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
 
-                MemoryStream outputStream = new MemoryStream();
                 DeviceConfigs allConfigs = new DeviceConfigs();
                 System.Collections.Generic.List<ConfigGroup> listOfConfigs = new System.Collections.Generic.List<ConfigGroup>();
                 foreach (TabPage tab in groupedControls.TabPages)
@@ -272,10 +271,11 @@ namespace DiagServerAccessor
                 string jsonToWrite = JsonConvert.SerializeObject(allConfigs);
 
                 string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.SetConfig);
-                outputStream.Write(System.Text.Encoding.UTF8.GetBytes(jsonToWrite), 0, jsonToWrite.Length);
-                outputStream.Flush();
-                string ret = WebServerScripts.HttpPost(builtIP, jsonToWrite);
-                outputStream.Close();
+                using (MemoryStream outputStream = new MemoryStream(System.Text.Encoding.UTF8.GetBytes(jsonToWrite)))
+                {
+                    string ret = WebServerScripts.HttpPost(builtIP, outputStream);
+                    outputStream.Close();
+                }
             }
         }
 

@@ -10,6 +10,8 @@ namespace DiagServerAccessor
 {
     class FirmwareUpgradeWindow : Form
     {
+        private bool closeThread = false;
+
         public FirmwareUpgradeWindow(string deviceName, string ip, CTRProductStuff.Devices device, uint deviceID) : base()
         {
             Width = 500;
@@ -37,18 +39,31 @@ namespace DiagServerAccessor
 
             Show();
 
+            FormClosing += formClosingEvent;
+
             Thread t = new Thread(() => updateThread(ip, device, deviceID, pr));
             t.IsBackground = true;
-            t.Start();            
+            t.Start();
+        }
+
+        private void formClosingEvent(object sender, FormClosingEventArgs e)
+        {
+            if(!closeThread)
+                e.Cancel = true;
+            closeThread = true;
         }
 
         private void updateThread(string ip, CTRProductStuff.Devices device, uint deviceID, ProgressBar updateBar)
         {
-            ProgressReturn returnClass;
+            ProgressReturn returnClass = null;
             bool starting = true;
             do
             {
+                if (closeThread) break;
+
                 string ret = WebServerScripts.HttpGet(ip, device, deviceID, CTRProductStuff.Action.CheckUpdateProgress);
+                if (ret == "Failed")
+                    continue;
                 returnClass = JsonConvert.DeserializeObject<ProgressReturn>(ret);
                 if (returnClass != null)
                 {
@@ -61,6 +76,7 @@ namespace DiagServerAccessor
                 Thread.Sleep(100);
             } while (returnClass == null || returnClass.progress != 0 || starting);
 
+            closeThread = true;
             Invoke(new Action(() =>
             {
                 Close();

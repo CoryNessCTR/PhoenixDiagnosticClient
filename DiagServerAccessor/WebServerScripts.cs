@@ -21,28 +21,28 @@ namespace DiagServerAccessor
             else
                 return new string[] { "localhost", "172.22.11.2" };
         }
-
-        public static string HttpPost(string ip, string content, int timeout = 2000)
+        
+        public static string HttpPost(string ip, Stream file, int timeout = 2000)
         {
             string boundary = "||-----------------||";
             WebRequest client = WebRequest.Create(ip);
             client.Method = "POST";
-            client.ContentLength = content.Length + boundary.Length + 2 + boundary.Length + 4;
+            client.ContentLength = file.Length + boundary.Length + 2 + boundary.Length + 4;
             client.ContentType = "multipart/form-data; boundary=\"" + boundary + "\"\r\n\r\n";
             client.Timeout = timeout;
 
             string retval;
             try
             {
-                using (var mpStream = new StreamWriter(client.GetRequestStream()))
+                using (var mpStream = (client.GetRequestStream()))
                 {
                     /* Follow convention of form-data with boundaries */
-                    mpStream.Write("--");
-                    mpStream.Write(boundary);
-                    mpStream.Write(content);
-                    mpStream.Write("--");
-                    mpStream.Write(boundary);
-                    mpStream.Write("--");
+                    mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
+                    mpStream.Write(Encoding.UTF8.GetBytes(boundary), 0, boundary.Length);
+                    file.CopyTo(mpStream);
+                    mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
+                    mpStream.Write(Encoding.UTF8.GetBytes(boundary), 0, boundary.Length);
+                    mpStream.Write(Encoding.UTF8.GetBytes("--"), 0, 2);
 
                     mpStream.Close();
                 }
@@ -68,11 +68,6 @@ namespace DiagServerAccessor
                 Console.WriteLine(e.ToString());
                 return "";
             }
-        }
-        public static string HttpPost(string ip, Stream file, int timeout = 2000)
-        {
-            StreamReader content = new StreamReader(file);
-            return HttpPost(ip, content.ReadToEnd(), timeout);
         }
         public static string buildIP(string baseIP, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {
