@@ -119,7 +119,19 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 //Populate Configs with TalonSRX.json
-                FileStream configParams = File.Open("TalonSRX.json", FileMode.Open);
+                FileStream configParams;
+                switch(dev)
+                {
+                    case CTRProductStuff.Devices.TalonSRX:
+                        configParams = File.Open("TalonSRX.json", FileMode.Open);
+                        break;
+                    case CTRProductStuff.Devices.VictorSPX:
+                        configParams = File.Open("VictorSPX.json", FileMode.Open);
+                        break;
+                    default:
+                        configParams = File.Open("TalonSRX.json", FileMode.Open);
+                        break;
+                }
                 string builtIP = WebServerScripts.buildIP(_connectedIp, dev, id, CTRProductStuff.Action.GetConfig);
                 string txt = WebServerScripts.HttpPost(builtIP, configParams).Result;
 
