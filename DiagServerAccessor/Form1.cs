@@ -49,6 +49,9 @@ namespace DiagServerAccessor
             {
                 foreach(DeviceDescriptor d in _deviceStatus.DeviceArray)
                 {
+                    if ((d.ID & 0xFFFFFFC0) == 0x0204f400)
+                        d.Model = "Pigeon Over Ribbon";
+
                     CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[d.Model];
                     string[] array = new string[7];
                     array[0] = d.Name;
@@ -68,6 +71,7 @@ namespace DiagServerAccessor
                         case CTRProductStuff.Devices.VictorSPX:
                             imageKey = 1;
                             break;
+                        case CTRProductStuff.Devices.PigeonIMURibbon:
                         case CTRProductStuff.Devices.PigeonIMU:
                             imageKey = 2;
                             break;
@@ -269,7 +273,8 @@ namespace DiagServerAccessor
                 CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
                 uint id = (uint)descriptor.ID & 0x3F;
 
-                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SelfTest);
+                //Self test holds a "lot" of data, so increase the timeout for it
+                string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.SelfTest, "", 1000);
                 if (ret == "Failed")
                 {
                     updateReturnTextBox();
