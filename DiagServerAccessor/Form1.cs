@@ -36,7 +36,7 @@ namespace DiagServerAccessor
             refreshConfigs();
             if (_connectedIp == "")
                 return;
-            string devices = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList);
+            string devices = WebServerScripts.HttpGet(_connectedIp, CTRProductStuff.Devices.None, 0, CTRProductStuff.Action.GetDeviceList, "", 1000);
             
             if (devices == "Failed")
             {
