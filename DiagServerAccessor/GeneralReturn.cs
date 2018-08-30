@@ -67,7 +67,18 @@ namespace DiagServerAccessor
         public StandardizedReturn GeneralReturn;
         public DeviceConfigs Device;
     }
-
+    class SetConfigReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public DeviceConfigs Device;
+    }
+    class FirmwareUpdateReturn
+    {
+        public StandardizedReturn GeneralReturn;
+        public string UpdateMessage;
+        public string Path;
+        public string Size;
+    }
     //Config JSON's////
     class ConfigGroup
     {

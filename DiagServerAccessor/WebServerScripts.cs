@@ -31,6 +31,11 @@ namespace DiagServerAccessor
             client.ContentType = "multipart/form-data; boundary=\"" + boundary + "\"\r\n\r\n";
             client.Timeout = timeout;
 
+            Form1.GetInstance().Invoke(new Action(() =>
+            {
+                Form1.GetInstance().returnList.Items.Add("POST: " + ip);
+            }));
+
             string retval;
             try
             {
@@ -60,14 +65,20 @@ namespace DiagServerAccessor
                     dataStream.Close();
                     response.Close();
                 }
-
-                return retval;
+                
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.ToString());
-                return "";
+                retval = "";
             }
+
+            Form1.GetInstance().Invoke(new Action(() =>
+            {
+                Form1.GetInstance().returnList.Items.Add(retval);
+            }));
+
+            return retval;
         }
         public static string buildIP(string baseIP, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "")
         {
@@ -107,6 +118,12 @@ namespace DiagServerAccessor
             string address = buildIP(ip, device, deviceID, action, extraOptions);
             Console.WriteLine(address);
             string retval = "";
+            
+            Form1.GetInstance().Invoke(new Action(() =>
+            {
+                Form1.GetInstance().returnList.Items.Add("GET: "+address);
+            }));
+
             //Request a GET at specified address
             WebRequest request = WebRequest.Create(address);
             request.Timeout = timeout;
@@ -132,6 +149,10 @@ namespace DiagServerAccessor
                 retval = "Failed";
             }
 
+            Form1.GetInstance().Invoke(new Action(() =>
+            {
+                Form1.GetInstance().returnList.Items.Add(retval);
+            }));
             //Return that string
             return retval;
         }

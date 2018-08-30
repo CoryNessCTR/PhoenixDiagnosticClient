@@ -11,6 +11,12 @@ namespace DiagServerAccessor
         private ComboBox.ObjectCollection _ipAddrItems;
         private string _connectedIp = "";
         private GetDevicesReturn _deviceStatus;
+        private static Form1 _instance;
+
+        public static Form1 GetInstance()
+        {
+            return _instance;
+        }
 
         public Form1()
         {
@@ -22,6 +28,8 @@ namespace DiagServerAccessor
             {
                 c.Enabled = false;
             }
+            _instance = this;
+            _timeSinceLastClick.Start();
         }
 
         private void refreshButton_Click(object sender, EventArgs e)
@@ -196,8 +204,15 @@ namespace DiagServerAccessor
                 }
 
                 GetConfigsReturn configs = JsonConvert.DeserializeObject<GetConfigsReturn>(txt);
-
-                if (configs == null || configs.Device == null || configs.Device.Configs == null)
+                
+                if (configs == null)//Should never happen
+                {
+                    updateReturnTextBox();
+                    return;
+                }
+                //Update return text box before doing anything else
+                updateReturnTextBox(configs.GeneralReturn.Error, configs.GeneralReturn.ErrorMessage);
+                if (configs.Device == null || configs.Device.Configs == null)
                 {
                     return;
                 }
@@ -310,7 +325,7 @@ namespace DiagServerAccessor
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 new FirmwareUpgradeWindow(descriptor.Name, _connectedIp, dev, id);
-                Thread t = new Thread(() => WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.UpdateFirmware, "", 60000)); //Wait up to one minute
+                Thread t = new Thread(() => updateFirmwareThread(_connectedIp, dev, id));
                 t.IsBackground = false; //Make sure firmware update finished before closing thread
                 t.Start(); //Make a thread for firmware update because it blocks for too long otherwise
             }
@@ -353,7 +368,8 @@ namespace DiagServerAccessor
                         updateReturnTextBox();
                         return;
                     }
-                    updateReturnTextBox(0, "Sent Message");
+                    SetConfigReturn retClass = JsonConvert.DeserializeObject<SetConfigReturn>(ret);
+                    updateReturnTextBox(retClass.GeneralReturn.Error, retClass.GeneralReturn.ErrorMessage);
                 }
             }
         }
@@ -361,6 +377,28 @@ namespace DiagServerAccessor
         private void refreshConfigButton_Click(object sender, EventArgs e)
         {
             refreshConfigs();
+        }
+
+        private void updateFirmwareThread(string ip, CTRProductStuff.Devices device, uint id)
+        {
+            string ret = WebServerScripts.HttpGet(ip, device, id, CTRProductStuff.Action.UpdateFirmware, "", 60000);//Give it a minute to update
+            if (ret == "Failed")
+            {
+                Invoke(new Action(() =>
+                {
+                    updateReturnTextBox(-999, "Firmware update failed");
+                }));
+                return;
+            }
+
+            FirmwareUpdateReturn returnClass = JsonConvert.DeserializeObject<FirmwareUpdateReturn>(ret);
+
+            Invoke(new Action(() =>
+            {
+                updateReturnTextBox(returnClass.GeneralReturn.Error, returnClass.UpdateMessage);
+            }));
+
+            return;
         }
 
         private void updateReturnTextBox(int errorCode = -999, string message = "Did not get a response")
@@ -381,6 +419,32 @@ namespace DiagServerAccessor
             errorMessageHandler.Document.OpenNew(false);
             errorMessageHandler.Document.Write(textBox);
             errorMessageHandler.Refresh();
+        }
+
+        //Super secret button mash in lower left corner
+        private uint _buttonClickTimes = 0;
+        private System.Diagnostics.Stopwatch _timeSinceLastClick = new System.Diagnostics.Stopwatch();
+        private void buttonMash(object sender, MouseEventArgs e)
+        {
+            if (_timeSinceLastClick.ElapsedMilliseconds > 1000) //Give it a second
+            {
+                _buttonClickTimes = 0;
+                _timeSinceLastClick.Restart();
+            }
+            _buttonClickTimes++;
+
+            //Button mash lower left corner, we know it's deliberate so show the debug list
+            if (_buttonClickTimes > 5)
+                splitContainer9.Panel2.Controls.Remove(coveringPanel);
+        }
+        private void copyContentsToClipboard(object sender, MouseEventArgs e)
+        {
+            string contents = "";
+            foreach(ListViewItem entry in returnList.Items)
+            {
+                contents += entry.Text + "\r\n";
+            }
+            Clipboard.SetText(contents);
         }
     }
 }

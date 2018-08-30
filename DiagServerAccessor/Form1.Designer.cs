@@ -31,7 +31,13 @@
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
             this.splitContainer3 = new System.Windows.Forms.SplitContainer();
+            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
+            this.connectedIndicator = new System.Windows.Forms.RadioButton();
+            this.connectButton = new System.Windows.Forms.Button();
+            this.label2 = new System.Windows.Forms.Label();
+            this.refreshButton = new System.Windows.Forms.Button();
             this.deviceSpecificControls = new System.Windows.Forms.TableLayoutPanel();
             this.splitContainer5 = new System.Windows.Forms.SplitContainer();
             this.blinkButton = new System.Windows.Forms.Button();
@@ -58,6 +64,8 @@
             this.manDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.bootRev = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.softStatus = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
+            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
             this.deviceViewer = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.configPanel = new System.Windows.Forms.TableLayoutPanel();
@@ -67,23 +75,26 @@
             this.refreshConfigButton = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.selfTestBox = new System.Windows.Forms.RichTextBox();
-            this.splitContainer4 = new System.Windows.Forms.SplitContainer();
-            this.refreshButton = new System.Windows.Forms.Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.connectButton = new System.Windows.Forms.Button();
-            this.connectedIndicator = new System.Windows.Forms.RadioButton();
-            this.splitContainer9 = new System.Windows.Forms.SplitContainer();
-            this.imageList1 = new System.Windows.Forms.ImageList(this.components);
             this.errorMessageHandler = new System.Windows.Forms.WebBrowser();
-            this.splitContainer13 = new System.Windows.Forms.SplitContainer();
+            this.returnList = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.coveringPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
             this.splitContainer2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
+            this.splitContainer9.Panel1.SuspendLayout();
+            this.splitContainer9.Panel2.SuspendLayout();
+            this.splitContainer9.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).BeginInit();
             this.splitContainer3.Panel1.SuspendLayout();
             this.splitContainer3.Panel2.SuspendLayout();
             this.splitContainer3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
+            this.splitContainer4.Panel1.SuspendLayout();
+            this.splitContainer4.Panel2.SuspendLayout();
+            this.splitContainer4.SuspendLayout();
             this.deviceSpecificControls.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer5)).BeginInit();
             this.splitContainer5.Panel1.SuspendLayout();
@@ -110,6 +121,10 @@
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
+            this.splitContainer13.Panel1.SuspendLayout();
+            this.splitContainer13.Panel2.SuspendLayout();
+            this.splitContainer13.SuspendLayout();
             this.deviceViewer.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.configPanel.SuspendLayout();
@@ -118,17 +133,6 @@
             this.splitContainer11.Panel2.SuspendLayout();
             this.splitContainer11.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).BeginInit();
-            this.splitContainer4.Panel1.SuspendLayout();
-            this.splitContainer4.Panel2.SuspendLayout();
-            this.splitContainer4.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).BeginInit();
-            this.splitContainer9.Panel1.SuspendLayout();
-            this.splitContainer9.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).BeginInit();
-            this.splitContainer13.Panel1.SuspendLayout();
-            this.splitContainer13.Panel2.SuspendLayout();
-            this.splitContainer13.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer2
@@ -147,9 +151,29 @@
             // splitContainer2.Panel2
             // 
             this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
-            this.splitContainer2.Size = new System.Drawing.Size(852, 464);
+            this.splitContainer2.Size = new System.Drawing.Size(897, 491);
             this.splitContainer2.SplitterDistance = 125;
             this.splitContainer2.TabIndex = 0;
+            // 
+            // splitContainer9
+            // 
+            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer9.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer9.Location = new System.Drawing.Point(0, 34);
+            this.splitContainer9.Name = "splitContainer9";
+            this.splitContainer9.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer9.Panel1
+            // 
+            this.splitContainer9.Panel1.Controls.Add(this.splitContainer3);
+            // 
+            // splitContainer9.Panel2
+            // 
+            this.splitContainer9.Panel2.Controls.Add(this.coveringPanel);
+            this.splitContainer9.Panel2.Controls.Add(this.returnList);
+            this.splitContainer9.Size = new System.Drawing.Size(125, 457);
+            this.splitContainer9.SplitterDistance = 347;
+            this.splitContainer9.TabIndex = 4;
             // 
             // splitContainer3
             // 
@@ -169,6 +193,70 @@
             this.splitContainer3.Size = new System.Drawing.Size(125, 347);
             this.splitContainer3.SplitterDistance = 57;
             this.splitContainer3.TabIndex = 3;
+            // 
+            // splitContainer4
+            // 
+            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer4.Name = "splitContainer4";
+            // 
+            // splitContainer4.Panel1
+            // 
+            this.splitContainer4.Panel1.Controls.Add(this.connectedIndicator);
+            this.splitContainer4.Panel1.Controls.Add(this.connectButton);
+            // 
+            // splitContainer4.Panel2
+            // 
+            this.splitContainer4.Panel2.Controls.Add(this.label2);
+            this.splitContainer4.Panel2.Controls.Add(this.refreshButton);
+            this.splitContainer4.Size = new System.Drawing.Size(125, 57);
+            this.splitContainer4.SplitterDistance = 56;
+            this.splitContainer4.TabIndex = 3;
+            // 
+            // connectedIndicator
+            // 
+            this.connectedIndicator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.connectedIndicator.AutoSize = true;
+            this.connectedIndicator.Enabled = false;
+            this.connectedIndicator.Location = new System.Drawing.Point(39, 44);
+            this.connectedIndicator.Name = "connectedIndicator";
+            this.connectedIndicator.Size = new System.Drawing.Size(14, 13);
+            this.connectedIndicator.TabIndex = 0;
+            this.connectedIndicator.UseVisualStyleBackColor = true;
+            // 
+            // connectButton
+            // 
+            this.connectButton.AutoSize = true;
+            this.connectButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.connectButton.Location = new System.Drawing.Point(0, 0);
+            this.connectButton.Name = "connectButton";
+            this.connectButton.Size = new System.Drawing.Size(56, 41);
+            this.connectButton.TabIndex = 2;
+            this.connectButton.Text = "Connect";
+            this.connectButton.UseVisualStyleBackColor = true;
+            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.label2.Location = new System.Drawing.Point(0, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(59, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Connected";
+            // 
+            // refreshButton
+            // 
+            this.refreshButton.AutoSize = true;
+            this.refreshButton.Dock = System.Windows.Forms.DockStyle.Top;
+            this.refreshButton.Location = new System.Drawing.Point(0, 0);
+            this.refreshButton.Name = "refreshButton";
+            this.refreshButton.Size = new System.Drawing.Size(65, 41);
+            this.refreshButton.TabIndex = 1;
+            this.refreshButton.Text = "Refresh";
+            this.refreshButton.UseVisualStyleBackColor = true;
+            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
             // 
             // deviceSpecificControls
             // 
@@ -246,7 +334,7 @@
             // 
             this.splitContainer6.Panel2.Controls.Add(this.nameChangeButton);
             this.splitContainer6.Size = new System.Drawing.Size(119, 57);
-            this.splitContainer6.SplitterDistance = 26;
+            this.splitContainer6.SplitterDistance = 25;
             this.splitContainer6.TabIndex = 1;
             // 
             // nameChanger
@@ -262,7 +350,7 @@
             this.nameChangeButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.nameChangeButton.Location = new System.Drawing.Point(0, 0);
             this.nameChangeButton.Name = "nameChangeButton";
-            this.nameChangeButton.Size = new System.Drawing.Size(119, 27);
+            this.nameChangeButton.Size = new System.Drawing.Size(119, 28);
             this.nameChangeButton.TabIndex = 0;
             this.nameChangeButton.Text = "Change Name";
             this.nameChangeButton.UseVisualStyleBackColor = true;
@@ -283,7 +371,7 @@
             // 
             this.splitContainer7.Panel2.Controls.Add(this.idChangeButton);
             this.splitContainer7.Size = new System.Drawing.Size(119, 57);
-            this.splitContainer7.SplitterDistance = 26;
+            this.splitContainer7.SplitterDistance = 25;
             this.splitContainer7.TabIndex = 2;
             // 
             // idChanger
@@ -304,7 +392,7 @@
             this.idChangeButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.idChangeButton.Location = new System.Drawing.Point(0, 0);
             this.idChangeButton.Name = "idChangeButton";
-            this.idChangeButton.Size = new System.Drawing.Size(119, 27);
+            this.idChangeButton.Size = new System.Drawing.Size(119, 28);
             this.idChangeButton.TabIndex = 0;
             this.idChangeButton.Text = "Change ID";
             this.idChangeButton.UseVisualStyleBackColor = true;
@@ -410,8 +498,8 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.splitContainer13);
-            this.splitContainer1.Size = new System.Drawing.Size(723, 464);
-            this.splitContainer1.SplitterDistance = 142;
+            this.splitContainer1.Size = new System.Drawing.Size(768, 491);
+            this.splitContainer1.SplitterDistance = 150;
             this.splitContainer1.TabIndex = 0;
             // 
             // deviceView
@@ -430,7 +518,7 @@
             this.deviceView.HideSelection = false;
             this.deviceView.Location = new System.Drawing.Point(0, 0);
             this.deviceView.Name = "deviceView";
-            this.deviceView.Size = new System.Drawing.Size(723, 142);
+            this.deviceView.Size = new System.Drawing.Size(768, 150);
             this.deviceView.SmallImageList = this.imageList1;
             this.deviceView.TabIndex = 0;
             this.deviceView.UseCompatibleStateImageBehavior = false;
@@ -472,6 +560,35 @@
             this.softStatus.Text = "Software Status";
             this.softStatus.Width = 111;
             // 
+            // imageList1
+            // 
+            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
+            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
+            this.imageList1.Images.SetKeyName(0, "Talon SRX_48.png");
+            this.imageList1.Images.SetKeyName(1, "Victor SPX_48.png");
+            this.imageList1.Images.SetKeyName(2, "Pigeon_48.png");
+            this.imageList1.Images.SetKeyName(3, "Canifier_48.png");
+            this.imageList1.Images.SetKeyName(4, "PCM_48.png");
+            this.imageList1.Images.SetKeyName(5, "PDP_48.png");
+            // 
+            // splitContainer13
+            // 
+            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer13.Location = new System.Drawing.Point(0, 0);
+            this.splitContainer13.Name = "splitContainer13";
+            this.splitContainer13.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            // 
+            // splitContainer13.Panel1
+            // 
+            this.splitContainer13.Panel1.Controls.Add(this.deviceViewer);
+            // 
+            // splitContainer13.Panel2
+            // 
+            this.splitContainer13.Panel2.Controls.Add(this.errorMessageHandler);
+            this.splitContainer13.Size = new System.Drawing.Size(768, 337);
+            this.splitContainer13.SplitterDistance = 204;
+            this.splitContainer13.TabIndex = 1;
+            // 
             // deviceViewer
             // 
             this.deviceViewer.Controls.Add(this.tabPage1);
@@ -480,7 +597,7 @@
             this.deviceViewer.Location = new System.Drawing.Point(0, 0);
             this.deviceViewer.Name = "deviceViewer";
             this.deviceViewer.SelectedIndex = 0;
-            this.deviceViewer.Size = new System.Drawing.Size(723, 248);
+            this.deviceViewer.Size = new System.Drawing.Size(768, 204);
             this.deviceViewer.TabIndex = 0;
             // 
             // tabPage1
@@ -489,7 +606,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(715, 222);
+            this.tabPage1.Size = new System.Drawing.Size(760, 178);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Device Information";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -506,7 +623,7 @@
             this.configPanel.Name = "configPanel";
             this.configPanel.RowCount = 1;
             this.configPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.configPanel.Size = new System.Drawing.Size(709, 216);
+            this.configPanel.Size = new System.Drawing.Size(754, 172);
             this.configPanel.TabIndex = 0;
             // 
             // groupedControls
@@ -515,13 +632,13 @@
             this.groupedControls.Location = new System.Drawing.Point(3, 3);
             this.groupedControls.Name = "groupedControls";
             this.groupedControls.SelectedIndex = 0;
-            this.groupedControls.Size = new System.Drawing.Size(561, 210);
+            this.groupedControls.Size = new System.Drawing.Size(597, 166);
             this.groupedControls.TabIndex = 0;
             // 
             // splitContainer11
             // 
             this.splitContainer11.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer11.Location = new System.Drawing.Point(570, 3);
+            this.splitContainer11.Location = new System.Drawing.Point(606, 3);
             this.splitContainer11.Name = "splitContainer11";
             this.splitContainer11.Orientation = System.Windows.Forms.Orientation.Horizontal;
             // 
@@ -532,8 +649,8 @@
             // splitContainer11.Panel2
             // 
             this.splitContainer11.Panel2.Controls.Add(this.refreshConfigButton);
-            this.splitContainer11.Size = new System.Drawing.Size(136, 210);
-            this.splitContainer11.SplitterDistance = 96;
+            this.splitContainer11.Size = new System.Drawing.Size(145, 166);
+            this.splitContainer11.SplitterDistance = 75;
             this.splitContainer11.TabIndex = 1;
             // 
             // saveConfigButton
@@ -541,7 +658,7 @@
             this.saveConfigButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.saveConfigButton.Location = new System.Drawing.Point(0, 0);
             this.saveConfigButton.Name = "saveConfigButton";
-            this.saveConfigButton.Size = new System.Drawing.Size(136, 96);
+            this.saveConfigButton.Size = new System.Drawing.Size(145, 75);
             this.saveConfigButton.TabIndex = 0;
             this.saveConfigButton.Text = "Save";
             this.saveConfigButton.UseVisualStyleBackColor = true;
@@ -552,7 +669,7 @@
             this.refreshConfigButton.Dock = System.Windows.Forms.DockStyle.Fill;
             this.refreshConfigButton.Location = new System.Drawing.Point(0, 0);
             this.refreshConfigButton.Name = "refreshConfigButton";
-            this.refreshConfigButton.Size = new System.Drawing.Size(136, 110);
+            this.refreshConfigButton.Size = new System.Drawing.Size(145, 87);
             this.refreshConfigButton.TabIndex = 0;
             this.refreshConfigButton.Text = "Refresh";
             this.refreshConfigButton.UseVisualStyleBackColor = true;
@@ -564,7 +681,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(663, 232);
+            this.tabPage2.Size = new System.Drawing.Size(715, 222);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Self Test Results";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -574,99 +691,9 @@
             this.selfTestBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selfTestBox.Location = new System.Drawing.Point(3, 3);
             this.selfTestBox.Name = "selfTestBox";
-            this.selfTestBox.Size = new System.Drawing.Size(657, 226);
+            this.selfTestBox.Size = new System.Drawing.Size(709, 216);
             this.selfTestBox.TabIndex = 0;
             this.selfTestBox.Text = "";
-            // 
-            // splitContainer4
-            // 
-            this.splitContainer4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer4.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer4.Name = "splitContainer4";
-            // 
-            // splitContainer4.Panel1
-            // 
-            this.splitContainer4.Panel1.Controls.Add(this.connectedIndicator);
-            this.splitContainer4.Panel1.Controls.Add(this.connectButton);
-            // 
-            // splitContainer4.Panel2
-            // 
-            this.splitContainer4.Panel2.Controls.Add(this.label2);
-            this.splitContainer4.Panel2.Controls.Add(this.refreshButton);
-            this.splitContainer4.Size = new System.Drawing.Size(125, 57);
-            this.splitContainer4.SplitterDistance = 56;
-            this.splitContainer4.TabIndex = 3;
-            // 
-            // refreshButton
-            // 
-            this.refreshButton.AutoSize = true;
-            this.refreshButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.refreshButton.Location = new System.Drawing.Point(0, 0);
-            this.refreshButton.Name = "refreshButton";
-            this.refreshButton.Size = new System.Drawing.Size(65, 41);
-            this.refreshButton.TabIndex = 1;
-            this.refreshButton.Text = "Refresh";
-            this.refreshButton.UseVisualStyleBackColor = true;
-            this.refreshButton.Click += new System.EventHandler(this.refreshButton_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.label2.Location = new System.Drawing.Point(0, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(59, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Connected";
-            // 
-            // connectButton
-            // 
-            this.connectButton.AutoSize = true;
-            this.connectButton.Dock = System.Windows.Forms.DockStyle.Top;
-            this.connectButton.Location = new System.Drawing.Point(0, 0);
-            this.connectButton.Name = "connectButton";
-            this.connectButton.Size = new System.Drawing.Size(56, 41);
-            this.connectButton.TabIndex = 2;
-            this.connectButton.Text = "Connect";
-            this.connectButton.UseVisualStyleBackColor = true;
-            this.connectButton.Click += new System.EventHandler(this.connectButton_Click);
-            // 
-            // connectedIndicator
-            // 
-            this.connectedIndicator.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.connectedIndicator.AutoSize = true;
-            this.connectedIndicator.Enabled = false;
-            this.connectedIndicator.Location = new System.Drawing.Point(39, 44);
-            this.connectedIndicator.Name = "connectedIndicator";
-            this.connectedIndicator.Size = new System.Drawing.Size(14, 13);
-            this.connectedIndicator.TabIndex = 0;
-            this.connectedIndicator.UseVisualStyleBackColor = true;
-            // 
-            // splitContainer9
-            // 
-            this.splitContainer9.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer9.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
-            this.splitContainer9.Location = new System.Drawing.Point(0, 34);
-            this.splitContainer9.Name = "splitContainer9";
-            this.splitContainer9.Orientation = System.Windows.Forms.Orientation.Horizontal;
-            // 
-            // splitContainer9.Panel1
-            // 
-            this.splitContainer9.Panel1.Controls.Add(this.splitContainer3);
-            this.splitContainer9.Size = new System.Drawing.Size(125, 430);
-            this.splitContainer9.SplitterDistance = 347;
-            this.splitContainer9.TabIndex = 4;
-            // 
-            // imageList1
-            // 
-            this.imageList1.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("imageList1.ImageStream")));
-            this.imageList1.TransparentColor = System.Drawing.Color.Transparent;
-            this.imageList1.Images.SetKeyName(0, "Talon SRX_48.png");
-            this.imageList1.Images.SetKeyName(1, "Victor SPX_48.png");
-            this.imageList1.Images.SetKeyName(2, "Pigeon_48.png");
-            this.imageList1.Images.SetKeyName(3, "Canifier_48.png");
-            this.imageList1.Images.SetKeyName(4, "PCM_48.png");
-            this.imageList1.Images.SetKeyName(5, "PDP_48.png");
             // 
             // errorMessageHandler
             // 
@@ -675,30 +702,39 @@
             this.errorMessageHandler.Location = new System.Drawing.Point(0, 0);
             this.errorMessageHandler.MinimumSize = new System.Drawing.Size(20, 20);
             this.errorMessageHandler.Name = "errorMessageHandler";
-            this.errorMessageHandler.Size = new System.Drawing.Size(723, 66);
+            this.errorMessageHandler.Size = new System.Drawing.Size(768, 129);
             this.errorMessageHandler.TabIndex = 1;
             // 
-            // splitContainer13
+            // returnList
             // 
-            this.splitContainer13.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.splitContainer13.Location = new System.Drawing.Point(0, 0);
-            this.splitContainer13.Name = "splitContainer13";
-            this.splitContainer13.Orientation = System.Windows.Forms.Orientation.Horizontal;
+            this.returnList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.returnList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.returnList.Location = new System.Drawing.Point(0, 0);
+            this.returnList.Name = "returnList";
+            this.returnList.Size = new System.Drawing.Size(125, 106);
+            this.returnList.TabIndex = 0;
+            this.returnList.UseCompatibleStateImageBehavior = false;
+            this.returnList.View = System.Windows.Forms.View.Details;
+            this.returnList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.copyContentsToClipboard);
             // 
-            // splitContainer13.Panel1
+            // columnHeader1
             // 
-            this.splitContainer13.Panel1.Controls.Add(this.deviceViewer);
+            this.columnHeader1.Text = "Debug Log (Double Click Copies to Clipboard)";
+            this.columnHeader1.Width = 500;
             // 
-            // splitContainer13.Panel2
+            // coveringPanel
             // 
-            this.splitContainer13.Panel2.Controls.Add(this.errorMessageHandler);
-            this.splitContainer13.Size = new System.Drawing.Size(723, 318);
-            this.splitContainer13.SplitterDistance = 248;
-            this.splitContainer13.TabIndex = 1;
+            this.coveringPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.coveringPanel.Location = new System.Drawing.Point(0, 0);
+            this.coveringPanel.Name = "coveringPanel";
+            this.coveringPanel.Size = new System.Drawing.Size(125, 106);
+            this.coveringPanel.TabIndex = 1;
+            this.coveringPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMash);
             // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(852, 464);
+            this.ClientSize = new System.Drawing.Size(897, 491);
             this.Controls.Add(this.splitContainer2);
             this.Name = "Form1";
             this.splitContainer2.Panel1.ResumeLayout(false);
@@ -706,10 +742,20 @@
             this.splitContainer2.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
             this.splitContainer2.ResumeLayout(false);
+            this.splitContainer9.Panel1.ResumeLayout(false);
+            this.splitContainer9.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
+            this.splitContainer9.ResumeLayout(false);
             this.splitContainer3.Panel1.ResumeLayout(false);
             this.splitContainer3.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer3)).EndInit();
             this.splitContainer3.ResumeLayout(false);
+            this.splitContainer4.Panel1.ResumeLayout(false);
+            this.splitContainer4.Panel1.PerformLayout();
+            this.splitContainer4.Panel2.ResumeLayout(false);
+            this.splitContainer4.Panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
+            this.splitContainer4.ResumeLayout(false);
             this.deviceSpecificControls.ResumeLayout(false);
             this.splitContainer5.Panel1.ResumeLayout(false);
             this.splitContainer5.Panel2.ResumeLayout(false);
@@ -738,6 +784,10 @@
             this.splitContainer1.Panel2.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
+            this.splitContainer13.Panel1.ResumeLayout(false);
+            this.splitContainer13.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
+            this.splitContainer13.ResumeLayout(false);
             this.deviceViewer.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.configPanel.ResumeLayout(false);
@@ -746,19 +796,6 @@
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer11)).EndInit();
             this.splitContainer11.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.splitContainer4.Panel1.ResumeLayout(false);
-            this.splitContainer4.Panel1.PerformLayout();
-            this.splitContainer4.Panel2.ResumeLayout(false);
-            this.splitContainer4.Panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer4)).EndInit();
-            this.splitContainer4.ResumeLayout(false);
-            this.splitContainer9.Panel1.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer9)).EndInit();
-            this.splitContainer9.ResumeLayout(false);
-            this.splitContainer13.Panel1.ResumeLayout(false);
-            this.splitContainer13.Panel2.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.splitContainer13)).EndInit();
-            this.splitContainer13.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -811,6 +848,9 @@
         private System.Windows.Forms.ImageList imageList1;
         private System.Windows.Forms.WebBrowser errorMessageHandler;
         private System.Windows.Forms.SplitContainer splitContainer13;
+        public System.Windows.Forms.ListView returnList;
+        private System.Windows.Forms.ColumnHeader columnHeader1;
+        private System.Windows.Forms.Panel coveringPanel;
     }
 }
 
