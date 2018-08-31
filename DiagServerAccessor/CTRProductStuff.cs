@@ -31,6 +31,17 @@ namespace DiagServerAccessor
             { Devices.PDP, "pdp" },
 
         };
+        public static readonly Dictionary<long, Devices> DeviceIDMap = new Dictionary<long, Devices>()
+        {
+            { 0, Devices.None },
+            { 0x0204fc00, Devices.TalonSRX },
+            { 0x0104fc00, Devices.VictorSPX },
+            { 0x1504fc00, Devices.PigeonIMU },
+            { 0x204f400, Devices.PigeonIMURibbon },
+            { 0x0304fc00, Devices.CANifier },
+            { 0x0904fc00, Devices.PCM },
+            { 0x0804fc00, Devices.PDP },
+        };
         public static readonly Dictionary<string, Devices> DeviceStringMap = new Dictionary<string, Devices>()
         {
             { "", Devices.None},

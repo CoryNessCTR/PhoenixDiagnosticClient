@@ -111,6 +111,7 @@ namespace DiagServerAccessor
                     address += CTRProductStuff.ActionMap[action];
                     break;
             }
+            address = Uri.EscapeUriString(address);
             return address;
         }
         public static string HttpGet(string ip, CTRProductStuff.Devices device, uint deviceID, CTRProductStuff.Action action, string extraOptions = "", int timeout = 500)

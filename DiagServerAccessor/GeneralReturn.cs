@@ -22,7 +22,7 @@ namespace DiagServerAccessor
         public string CurrentVers;
         public int DynID;
         public string HardwareRev;
-        public int ID;
+        public long ID;
         public string ManDate;
         public string Model;
         public string Name;

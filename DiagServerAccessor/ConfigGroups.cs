@@ -27,7 +27,7 @@ namespace DiagServerAccessor
             Brake = 1
         }
 
-        public eNeutralMode NeutralMode;
+        public eNeutralMode ?NeutralMode;
 
         public IControlGroup GetFromValues(GroupTabPage tab)
         {
@@ -84,8 +84,8 @@ namespace DiagServerAccessor
             NormallyClosed = 2
         }
 
-        public eModeOfOperation LimitSwitchForward;
-        public eModeOfOperation LimitSwitchReverse;
+        public eModeOfOperation ?LimitSwitchForward;
+        public eModeOfOperation ?LimitSwitchReverse;
 
         public IControlGroup GetFromValues(GroupTabPage tab)
         {
@@ -163,10 +163,10 @@ namespace DiagServerAccessor
 
     class SoftLimitSwitchGroup : IControlGroup
     {
-        public bool ForwardSoftLimitEnable;
-        public bool ReverseSoftLimitEnable;
-        public float SoftLimitForwardValue;
-        public float SoftLimitReverseValue;
+        public bool ?ForwardSoftLimitEnable;
+        public bool ?ReverseSoftLimitEnable;
+        public float ?SoftLimitForwardValue;
+        public float ?SoftLimitReverseValue;
 
         public IControlGroup GetFromValues(GroupTabPage tab)
         {
@@ -238,11 +238,11 @@ namespace DiagServerAccessor
 
             CheckBox forwardEnable = new CheckBox();
             forwardEnable.Dock = DockStyle.Fill;
-            forwardEnable.Checked = ForwardSoftLimitEnable;
+            forwardEnable.Checked = ForwardSoftLimitEnable == true;
 
             CheckBox reverseEnable = new CheckBox();
             reverseEnable.Dock = DockStyle.Fill;
-            reverseEnable.Checked = ReverseSoftLimitEnable;
+            reverseEnable.Checked = ReverseSoftLimitEnable == true;
 
             NumericUpDown forwardValue = new NumericUpDown();
             forwardValue.Minimum = decimal.MinValue;
@@ -281,13 +281,13 @@ namespace DiagServerAccessor
 
     class SlotGroup : IControlGroup
     {
-        public int SlotNumber;
-        public float pGain;
-        public float iGain;
-        public float dGain;
-        public float fGain;
-        public float iZone;
-        public float clRampRate;
+        public int ?SlotNumber;
+        public float ?pGain;
+        public float ?iGain;
+        public float ?dGain;
+        public float ?fGain;
+        public float ?iZone;
+        public float ?clRampRate;
 
         public IControlGroup GetFromValues(GroupTabPage tab)
         {

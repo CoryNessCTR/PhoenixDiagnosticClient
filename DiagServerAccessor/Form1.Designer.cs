@@ -53,6 +53,9 @@
             this.fileName = new System.Windows.Forms.TextBox();
             this.firmwareDialogButton = new System.Windows.Forms.Button();
             this.updateDeviceButton = new System.Windows.Forms.Button();
+            this.coveringPanel = new System.Windows.Forms.Panel();
+            this.returnList = new System.Windows.Forms.ListView();
+            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ipAddrSelector = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
@@ -76,9 +79,6 @@
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.selfTestBox = new System.Windows.Forms.RichTextBox();
             this.errorMessageHandler = new System.Windows.Forms.WebBrowser();
-            this.returnList = new System.Windows.Forms.ListView();
-            this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.coveringPanel = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
             this.splitContainer2.Panel1.SuspendLayout();
             this.splitContainer2.Panel2.SuspendLayout();
@@ -464,6 +464,33 @@
             this.updateDeviceButton.UseVisualStyleBackColor = true;
             this.updateDeviceButton.Click += new System.EventHandler(this.updateDeviceButton_Click);
             // 
+            // coveringPanel
+            // 
+            this.coveringPanel.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.coveringPanel.Location = new System.Drawing.Point(0, 0);
+            this.coveringPanel.Name = "coveringPanel";
+            this.coveringPanel.Size = new System.Drawing.Size(125, 106);
+            this.coveringPanel.TabIndex = 1;
+            this.coveringPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMash);
+            // 
+            // returnList
+            // 
+            this.returnList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader1});
+            this.returnList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.returnList.Location = new System.Drawing.Point(0, 0);
+            this.returnList.Name = "returnList";
+            this.returnList.Size = new System.Drawing.Size(125, 106);
+            this.returnList.TabIndex = 0;
+            this.returnList.UseCompatibleStateImageBehavior = false;
+            this.returnList.View = System.Windows.Forms.View.Details;
+            this.returnList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.copyContentsToClipboard);
+            // 
+            // columnHeader1
+            // 
+            this.columnHeader1.Text = "Debug Log (Double Click Copies to Clipboard)";
+            this.columnHeader1.Width = 500;
+            // 
             // ipAddrSelector
             // 
             this.ipAddrSelector.Dock = System.Windows.Forms.DockStyle.Top;
@@ -557,6 +584,7 @@
             // 
             // softStatus
             // 
+            this.softStatus.DisplayIndex = 1;
             this.softStatus.Text = "Software Status";
             this.softStatus.Width = 111;
             // 
@@ -681,7 +709,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(715, 222);
+            this.tabPage2.Size = new System.Drawing.Size(760, 178);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Self Test Results";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -691,7 +719,7 @@
             this.selfTestBox.Dock = System.Windows.Forms.DockStyle.Fill;
             this.selfTestBox.Location = new System.Drawing.Point(3, 3);
             this.selfTestBox.Name = "selfTestBox";
-            this.selfTestBox.Size = new System.Drawing.Size(709, 216);
+            this.selfTestBox.Size = new System.Drawing.Size(754, 172);
             this.selfTestBox.TabIndex = 0;
             this.selfTestBox.Text = "";
             // 
@@ -704,33 +732,6 @@
             this.errorMessageHandler.Name = "errorMessageHandler";
             this.errorMessageHandler.Size = new System.Drawing.Size(768, 129);
             this.errorMessageHandler.TabIndex = 1;
-            // 
-            // returnList
-            // 
-            this.returnList.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader1});
-            this.returnList.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.returnList.Location = new System.Drawing.Point(0, 0);
-            this.returnList.Name = "returnList";
-            this.returnList.Size = new System.Drawing.Size(125, 106);
-            this.returnList.TabIndex = 0;
-            this.returnList.UseCompatibleStateImageBehavior = false;
-            this.returnList.View = System.Windows.Forms.View.Details;
-            this.returnList.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.copyContentsToClipboard);
-            // 
-            // columnHeader1
-            // 
-            this.columnHeader1.Text = "Debug Log (Double Click Copies to Clipboard)";
-            this.columnHeader1.Width = 500;
-            // 
-            // coveringPanel
-            // 
-            this.coveringPanel.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.coveringPanel.Location = new System.Drawing.Point(0, 0);
-            this.coveringPanel.Name = "coveringPanel";
-            this.coveringPanel.Size = new System.Drawing.Size(125, 106);
-            this.coveringPanel.TabIndex = 1;
-            this.coveringPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.buttonMash);
             // 
             // Form1
             // 

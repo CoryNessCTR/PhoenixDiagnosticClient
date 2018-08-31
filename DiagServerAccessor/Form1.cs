@@ -60,7 +60,7 @@ namespace DiagServerAccessor
                     if ((d.ID & 0xFFFFFFC0) == 0x0204f400)
                         d.Model = "Pigeon Over Ribbon";
 
-                    CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[d.Model];
+                    CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[(d.ID & 0xFFFFFFC0)];
                     string[] array = new string[7];
                     array[0] = d.Name;
                     array[1] = d.Model;
@@ -145,7 +145,7 @@ namespace DiagServerAccessor
             if(deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 string ret = WebServerScripts.HttpGet(_connectedIp, dev, id, CTRProductStuff.Action.Blink);
@@ -176,7 +176,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 //Populate Configs with TalonSRX.json
@@ -240,7 +240,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
                 string extraParameters = "&newid=" + ((int)idChanger.Value).ToString();
 
@@ -263,7 +263,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
                 string extraParameters = "&newname=" + nameChanger.Text;
 
@@ -285,7 +285,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 //Self test holds a "lot" of data, so increase the timeout for it
@@ -321,7 +321,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
 
                 new FirmwareUpgradeWindow(descriptor.Name, _connectedIp, dev, id);
@@ -336,7 +336,7 @@ namespace DiagServerAccessor
             if (deviceView.SelectedItems.Count == 1)
             {
                 var descriptor = _deviceStatus.DeviceArray[deviceView.SelectedIndices[0]];
-                CTRProductStuff.Devices dev = CTRProductStuff.DeviceStringMap[descriptor.Model];
+                CTRProductStuff.Devices dev = CTRProductStuff.DeviceIDMap[descriptor.ID & 0xFFFFFFC0];
                 uint id = (uint)descriptor.ID & 0x3F;
 
 
@@ -350,7 +350,7 @@ namespace DiagServerAccessor
                     newGroup.Type = group.GetType().Name;
                     newGroup.Ordinal = 0;
                     if (group is SlotGroup)
-                        newGroup.Ordinal = ((SlotGroup)group).SlotNumber;
+                        newGroup.Ordinal = (int)((SlotGroup)group).SlotNumber;
                     newGroup.Values = group;
 
                     listOfConfigs.Add(newGroup);
@@ -369,6 +369,11 @@ namespace DiagServerAccessor
                         return;
                     }
                     SetConfigReturn retClass = JsonConvert.DeserializeObject<SetConfigReturn>(ret);
+                    if(retClass == null)
+                    {
+                        updateReturnTextBox();
+                        return;
+                    }
                     updateReturnTextBox(retClass.GeneralReturn.Error, retClass.GeneralReturn.ErrorMessage);
                 }
             }
